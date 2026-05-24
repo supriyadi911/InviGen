@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InviGen - Generator Undangan Digital Premium</title>
+    <title>InviGen</title>
     
     <!-- Google Fonts - Diperbarui dengan berbagai jenis font untuk 19 Template -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Fredoka:wght@300;400;500;600&family=Great+Vibes&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&family=Quicksand:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
@@ -509,7 +509,8 @@
         /* Floating Audio Button */
         #audio-control {
             position: absolute;
-            bottom: 95px; right: 20px; /* Disesuaikan agar aman di atas bottom nav */
+            bottom: 110px; /* DINAIIKKAN: Agar aman di atas bottom nav yang lebih tebal */
+            right: 20px;
             width: 45px; height: 45px;
             background: var(--inv-accent);
             color: white;
@@ -528,11 +529,11 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            padding-top: 12px;
-            /* Kalkulasi pintar: beri jarak default 12px + jarak aman iPhone jika ada */
-            padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); 
+            padding-top: 15px;
+            /* DINAIIKKAN: Jarak bawah ditebalkan jadi 25px agar ikon terangkat dari menu browser HP */
+            padding-bottom: calc(25px + env(safe-area-inset-bottom, 0px)); 
             background: #ffffff; 
-            border-top: 1px solid rgba(0,0,0,0.08); /* Garis tegas di bagian atas nav */
+            border-top: 1px solid rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -701,7 +702,9 @@
         /* Mobile Toggle Admin */
         #mobile-admin-toggle {
             display: none;
-            position: fixed; bottom: 85px; left: 20px; /* Disesuaikan agar tidak terhalang menu bawah */
+            position: fixed; 
+            bottom: 110px; /* DINAIIKKAN posisinya */
+            left: 20px; 
             width: 50px; height: 50px;
             background: var(--admin-primary); color: white;
             border-radius: 50%;
@@ -1300,8 +1303,8 @@
                     </div>
                 </section>
 
-                <!-- Footer -->
-                <footer style="padding: 30px 30px 100px 30px; text-align: center; background: #111; color: #fff;">
+                <!-- Footer (Padding bottom ditambah jadi 120px agar konten paling bawah tidak tertutup nav) -->
+                <footer style="padding: 30px 30px 120px 30px; text-align: center; background: #111; color: #fff;">
                     <div class="cover-title prev-title" style="color: white; font-size: 1rem;">The Wedding Of</div>
                     
                     <div style="font-family: var(--inv-font-cursive); font-size: 2.2rem; margin: 15px 0;" id="footer-names-wedding">
@@ -1985,6 +1988,14 @@
             position: relative; /* Kunci agar Bottom Nav 'Absolute' tertahan di sini */
         }
         #mobile-admin-toggle, #admin-panel { display: none !important; }
+
+        /* Memastikan settingan navigasi bawah tetap tinggi di hasil export */
+        #bottom-nav {
+            padding-bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
+        }
+        #audio-control {
+            bottom: 110px !important;
+        }
     </style>
 </head>
 <body>
