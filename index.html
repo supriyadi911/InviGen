@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InviGen</title>
+    <title>InviGen - Generator Undangan Digital Premium</title>
     
     <!-- Google Fonts - Diperbarui dengan berbagai jenis font untuk 19 Template -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Fredoka:wght@300;400;500;600&family=Great+Vibes&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&family=Quicksand:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
@@ -509,7 +509,7 @@
         /* Floating Audio Button */
         #audio-control {
             position: absolute;
-            bottom: 110px; /* DINAIIKKAN: Agar aman di atas bottom nav yang lebih tebal */
+            bottom: 140px; /* DINAIIKKAN LAGI: Menyesuaikan bottom nav yang 1.75x lebih tinggi */
             right: 20px;
             width: 45px; height: 45px;
             background: var(--inv-accent);
@@ -529,9 +529,9 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            padding-top: 15px;
-            /* DINAIIKKAN: Jarak bawah ditebalkan jadi 25px agar ikon terangkat dari menu browser HP */
-            padding-bottom: calc(25px + env(safe-area-inset-bottom, 0px)); 
+            padding-top: 20px; /* Ditebalkan */
+            /* Ditebalkan ~1.75x lipat: Ikon akan terangkat sangat aman dari browser bar */
+            padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px)); 
             background: #ffffff; 
             border-top: 1px solid rgba(0,0,0,0.08);
             display: flex;
@@ -703,7 +703,7 @@
         #mobile-admin-toggle {
             display: none;
             position: fixed; 
-            bottom: 110px; /* DINAIIKKAN posisinya */
+            bottom: 140px; /* DINAIIKKAN posisinya menyamakan audio control */
             left: 20px; 
             width: 50px; height: 50px;
             background: var(--admin-primary); color: white;
@@ -1303,8 +1303,8 @@
                     </div>
                 </section>
 
-                <!-- Footer (Padding bottom ditambah jadi 120px agar konten paling bawah tidak tertutup nav) -->
-                <footer style="padding: 30px 30px 120px 30px; text-align: center; background: #111; color: #fff;">
+                <!-- Footer (Padding bottom ditambah jadi 160px agar konten paling bawah benar-benar aman) -->
+                <footer style="padding: 30px 30px 160px 30px; text-align: center; background: #111; color: #fff;">
                     <div class="cover-title prev-title" style="color: white; font-size: 1rem;">The Wedding Of</div>
                     
                     <div style="font-family: var(--inv-font-cursive); font-size: 2.2rem; margin: 15px 0;" id="footer-names-wedding">
@@ -1991,10 +1991,11 @@
 
         /* Memastikan settingan navigasi bawah tetap tinggi di hasil export */
         #bottom-nav {
-            padding-bottom: calc(25px + env(safe-area-inset-bottom, 0px)) !important;
+            padding-top: 20px !important;
+            padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px)) !important;
         }
         #audio-control {
-            bottom: 110px !important;
+            bottom: 140px !important;
         }
     </style>
 </head>
