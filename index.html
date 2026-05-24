@@ -203,13 +203,14 @@
 
         /* Mockup HP */
         #phone-mockup {
-            width: 414px; /* Lebar standar iPhone Max */
-            height: 850px;
-            max-height: 95vh;
+            width: 100%;
+            max-width: 480px; /* Tetap proporsional seperti layar HP */
+            height: 100vh;
+            height: 100dvh; /* Tinggi dinamis menghindari tertutup UI browser HP */
             background: var(--inv-bg);
-            border-radius: 40px;
-            border: 12px solid #333;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 0;
+            border: none;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
             overflow: hidden;
             position: relative;
             display: flex;
@@ -527,7 +528,9 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 65px;
+            height: auto;
+            min-height: 65px;
+            padding-bottom: env(safe-area-inset-bottom); /* Mencegah tertabrak garis iPhone */
             background: #ffffff; /* Mengubah menjadi solid color */
             /* Menghapus border-radius dan backdrop-filter untuk sudut tajam yang solid */
             display: flex;
@@ -1650,12 +1653,27 @@
     const audioControl = document.getElementById('audio-control');
     let isPlaying = false;
 
+    // Fungsi Request Fullscreen
+    function toggleFullScreen(elem) {
+        if (!document.fullscreenElement) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => console.log(err));
+            } else if (elem.webkitRequestFullscreen) { // Safari
+                elem.webkitRequestFullscreen().catch(err => console.log(err));
+            }
+        }
+    }
+
     function openInvitation() {
         // Animasi buka cover
         document.getElementById('cover-page').classList.add('opened');
         
         document.getElementById('bottom-nav').classList.add('visible');
         document.getElementById('darkmode-toggle').classList.add('visible');
+        
+        // Picu layar penuh (Fullscreen) otomatis pada area undangan
+        const mockup = document.getElementById('phone-mockup');
+        toggleFullScreen(mockup);
         
         // Sembunyikan tombol melayang (navigasi & musik) jika admin di mode mobile sedang terbuka saat membuka cover
         const panel = document.getElementById('admin-panel');
@@ -1701,6 +1719,11 @@
         document.getElementById('cover-page').classList.remove('opened');
         audioControl.style.display = 'none';
         
+        // Keluar dari mode layar penuh jika sedang aktif
+        if (document.fullscreenElement) {
+            document.exitFullscreen().catch(err => console.log(err));
+        }
+
         // Sembunyikan navigasi & toggle saat cover tertutup
         const bottomNav = document.getElementById('bottom-nav');
         bottomNav.classList.remove('visible');
@@ -1957,12 +1980,14 @@
             display: flex; 
             justify-content: center; 
             align-items: flex-start;
+            margin: 0;
+            padding: 0;
         }
         #phone-mockup { 
             width: 100%; 
             max-width: 500px; 
             height: 100vh; 
-            max-height: 100vh; 
+            height: 100dvh;
             border: none; 
             border-radius: 0; 
             margin: 0 auto; 
@@ -1998,11 +2023,24 @@
         const audioControl = document.getElementById('audio-control');
         let isPlaying = false;
 
+        function toggleFullScreen() {
+            const elem = document.documentElement;
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen().catch(err => console.log(err));
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen().catch(err => console.log(err));
+                }
+            }
+        }
+
         function openInvitation() {
             document.getElementById('cover-page').classList.add('opened');
             audioControl.style.display = 'flex';
             document.getElementById('bottom-nav').classList.add('visible');
             document.getElementById('darkmode-toggle').classList.add('visible');
+            
+            toggleFullScreen(); // Otomatis Layar Penuh untuk Tamu
             playAudio();
         }
 
