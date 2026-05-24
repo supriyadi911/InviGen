@@ -79,6 +79,7 @@
             flex: 1;
             overflow-y: auto;
             padding: 20px;
+            padding-bottom: 80px; /* Mencegah menu terbawah terpotong */
         }
 
         .admin-content::-webkit-scrollbar { width: 6px; }
@@ -266,11 +267,21 @@
 
         .cover-names {
             font-family: var(--inv-font-cursive);
-            font-size: 3.5rem;
+            font-size: 2.6rem; /* Diperkecil dari 3.5rem */
             line-height: 1.2;
             margin-bottom: 30px;
             color: var(--inv-text-main);
             text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+        
+        .cover-names span { 
+            white-space: nowrap; 
+            display: inline-block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: bottom;
         }
 
         .guest-box {
@@ -338,17 +349,21 @@
 
         .main-names {
             font-family: var(--inv-font-heading);
-            font-size: 2.5rem;
+            font-size: 1.8rem; /* Diperkecil dari 2.5rem */
             font-weight: bold;
             margin: 20px 0;
             line-height: 1.3;
+            width: 100%;
         }
 
         .main-names span {
             font-family: var(--inv-font-cursive);
-            font-size: 2rem;
+            font-size: 1.6rem; /* Diperkecil dari 2rem */
             color: var(--inv-accent);
             display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* Profile Section */
@@ -372,7 +387,7 @@
             border: 5px solid var(--inv-accent);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .profile-name { font-family: var(--inv-font-heading); font-size: 1.5rem; font-weight: bold; margin-bottom: 5px;}
+        .profile-name { font-family: var(--inv-font-heading); font-size: 1.5rem; font-weight: bold; margin-bottom: 5px; white-space: nowrap; }
         .profile-parents { font-size: 0.85rem; opacity: 0.8; }
 
         /* Date & Location */
@@ -862,7 +877,7 @@
                 <div id="form-group-wedding">
                     <div class="form-group">
                         <label>URL Foto Mempelai Pria</label>
-                        <input type="text" value="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80" oninput="updateImage('img-groom', this.value)">
+                        <input type="text" id="input-groom-photo" value="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80" oninput="updateImage('img-groom', this.value)">
                     </div>
                     <div class="form-group">
                         <label>Nama Mempelai Pria</label>
@@ -874,7 +889,7 @@
                     </div>
                     <div class="form-group">
                         <label>URL Foto Mempelai Wanita</label>
-                        <input type="text" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" oninput="updateImage('img-bride', this.value)">
+                        <input type="text" id="input-bride-photo" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" oninput="updateImage('img-bride', this.value)">
                     </div>
                     <div class="form-group">
                         <label>Nama Mempelai Wanita</label>
@@ -890,7 +905,7 @@
                 <div id="form-group-single" style="display: none;">
                     <div class="form-group">
                         <label id="label-single-photo">URL Foto Utama</label>
-                        <input type="text" value="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=300&q=80" oninput="updateImage('img-single', this.value)">
+                        <input type="text" id="input-single-photo" value="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=300&q=80" oninput="updateImage('img-single', this.value)">
                     </div>
                     <div class="form-group">
                         <label id="label-single-name">Nama Anak / Tokoh Utama</label>
@@ -1282,10 +1297,12 @@
                 <footer style="padding: 30px 30px 100px 30px; text-align: center; background: #111; color: #fff;">
                     <div class="cover-title prev-title" style="color: white; font-size: 1rem;">The Wedding Of</div>
                     
-                    <div style="font-family: var(--inv-font-cursive); font-size: 2rem; margin: 10px 0;" id="footer-names-wedding">
-                        <span class="prev-groom">Romeo</span> & <span class="prev-bride">Juliet</span>
+                    <div style="font-family: var(--inv-font-cursive); font-size: 2.2rem; margin: 15px 0;" id="footer-names-wedding">
+                        <span class="prev-groom" style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Romeo</span> 
+                        <span style="display: block; font-size: 1.5rem; margin: 5px 0; color: var(--inv-accent);">&</span> 
+                        <span class="prev-bride" style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Juliet</span>
                     </div>
-                    <div style="font-family: var(--inv-font-cursive); font-size: 2rem; margin: 10px 0; display: none;" id="footer-names-single">
+                    <div style="font-family: var(--inv-font-cursive); font-size: 2rem; margin: 10px 0; display: none; white-space: nowrap;" id="footer-names-single">
                         <span class="prev-single-name">Budi Santoso</span>
                     </div>
 
@@ -1615,6 +1632,19 @@
     document.getElementById('input-date').value = dateFormatted;
     setupCountdown(dateFormatted);
 
+    // --- FUNGSI PARSER GOOGLE DRIVE AUDIO ---
+    function parseAudioUrl(url) {
+        if (!url) return '';
+        // Cek apakah URL merupakan link Google Drive
+        const driveRegex = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
+        const match = url.match(driveRegex);
+        if (match && match[1]) {
+            // Ubah menjadi direct download link agar bisa diputar di tag audio
+            return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+        }
+        return url;
+    }
+
     // --- 5. AUDIO & COVER LOGIC ---
     const bgMusic = document.getElementById('bg-music');
     const audioControl = document.getElementById('audio-control');
@@ -1636,8 +1666,10 @@
             audioControl.style.display = 'flex';
         }
         
-        // Update source musik dari input jika diubah
-        const musicUrl = document.getElementById('input-music').value;
+        // Update source musik dari input jika diubah (termasuk konversi otomatis GDrive)
+        let musicUrl = document.getElementById('input-music').value;
+        musicUrl = parseAudioUrl(musicUrl);
+
         if(bgMusic.src !== musicUrl) {
             bgMusic.src = musicUrl;
         }
@@ -1878,12 +1910,299 @@
         }
     }
 
-    // --- 10. EXPORT HTML (Simulasi) ---
+    // --- 10. EXPORT HTML (Fungsi Nyata & Penuh) ---
     function exportHTML() {
-        // Dalam implementasi nyata, ini akan mengambil innerHTML dari #invitation-frame,
-        // menggabungkannya dengan template CSS di atas, dan membuat Blob untuk didownload.
-        // Karena ini berbasis browser murni tanpa backend file-system:
-        alert("Fitur Export mensimulasikan generate file index.html berisi pengaturan yang telah Anda buat. Anda bisa menguploadnya ke hosting seperti GitHub Pages atau Netlify.");
+        const invId = document.getElementById('invitation-id').value || 'undangan_digital';
+        
+        // 1. Reset state animasi sesaat sebelum mengambil HTML
+        document.getElementById('cover-page').classList.remove('opened');
+        document.getElementById('falling-container').innerHTML = ''; // bersihkan elemen gantung
+        
+        // 2. Ambil elemen dan style yang sedang aktif di layar pratinjau
+        const rootStyles = document.documentElement.style.cssText;
+        const themeClass = document.getElementById('invitation-frame').className;
+        const invHTML = document.getElementById('invitation-frame').innerHTML;
+        const navHTML = document.getElementById('bottom-nav').outerHTML;
+        const styleCSS = document.querySelector('style').innerHTML;
+        const pageTitle = document.getElementById('input-title').value;
+        
+        // 3. Ambil nilai logika/state khusus
+        const targetDate = document.getElementById('input-date').value;
+        let musicSrc = document.getElementById('input-music').value;
+        musicSrc = parseAudioUrl(musicSrc); // konversi GDrive jika perlu
+        const activeEffect = document.getElementById('input-effect').value;
+        
+        // 4. Susun struktur file HTML Standalone
+        const exportedHTML = `<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>${pageTitle}</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Fredoka:wght@300;400;500;600&family=Great+Vibes&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&family=Quicksand:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Variabel Dinamis Custom Anda */
+        :root { ${rootStyles} }
+        
+        /* Core Style Asli */
+        ${styleCSS}
+        
+        /* Overrides: Membuat tampilan layaknya Mobile Web App penuh saat dihosting */
+        body { 
+            background: #121212; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start;
+        }
+        #phone-mockup { 
+            width: 100%; 
+            max-width: 500px; 
+            height: 100vh; 
+            max-height: 100vh; 
+            border: none; 
+            border-radius: 0; 
+            margin: 0 auto; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.5); 
+        }
+        #mobile-admin-toggle, #admin-panel { display: none !important; }
+    </style>
+</head>
+<body>
+    <div id="phone-mockup">
+        <audio id="bg-music" loop>
+            <source src="${musicSrc}" type="audio/mpeg">
+        </audio>
+
+        <div id="audio-control" class="paused" style="display: none;" onclick="toggleAudio()">
+            <i class="fa-solid fa-music"></i>
+        </div>
+
+        <div id="darkmode-toggle" onclick="toggleDarkMode()">
+            <i class="fa-solid fa-moon"></i>
+        </div>
+
+        ${navHTML}
+
+        <div id="invitation-frame" class="${themeClass}">
+            ${invHTML}
+        </div>
+    </div>
+    
+    <script>
+        // SCRIPT BAWAAN KHUSUS EXPORTED FILE
+        const bgMusic = document.getElementById('bg-music');
+        const audioControl = document.getElementById('audio-control');
+        let isPlaying = false;
+
+        function openInvitation() {
+            document.getElementById('cover-page').classList.add('opened');
+            audioControl.style.display = 'flex';
+            document.getElementById('bottom-nav').classList.add('visible');
+            document.getElementById('darkmode-toggle').classList.add('visible');
+            playAudio();
+        }
+
+        function playAudio() {
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                audioControl.classList.remove('paused');
+                audioControl.innerHTML = '<i class="fa-solid fa-music"></i>';
+            }).catch(err => console.log("Interaksi user diperlukan untuk memutar audio."));
+        }
+
+        function toggleAudio() {
+            if (isPlaying) {
+                bgMusic.pause();
+                isPlaying = false;
+                audioControl.classList.add('paused');
+                audioControl.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+            } else {
+                playAudio();
+            }
+        }
+        
+        function toggleDarkMode() {
+            const mockup = document.getElementById('phone-mockup');
+            const icon = document.querySelector('#darkmode-toggle i');
+            mockup.classList.toggle('dark-mode');
+            icon.className = mockup.classList.contains('dark-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
+        function scrollToSection(sectionId) {
+            const frame = document.getElementById('invitation-frame');
+            const section = document.getElementById(sectionId);
+            if(section && frame) {
+                frame.scrollTo({ top: section.offsetTop, behavior: 'smooth' });
+            }
+        }
+
+        document.getElementById('invitation-frame').addEventListener('scroll', function() {
+            const sections = ['sec-hero', 'sec-profile', 'sec-event', 'sec-gallery', 'sec-rsvp'];
+            let currentSection = 'sec-hero';
+            for(let id of sections) {
+                const section = document.getElementById(id);
+                if(section && this.scrollTop >= section.offsetTop - 150) {
+                    currentSection = id;
+                }
+            }
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if(item.getAttribute('onclick').includes(currentSection)) {
+                    item.classList.add('active');
+                }
+            });
+        });
+        
+        function copyRekening() {
+            const rek = document.getElementById('rek-number').innerText;
+            const textArea = document.createElement("textarea");
+            textArea.value = rek;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try { document.execCommand('copy'); alert("Nomor rekening disalin: " + rek); } 
+            catch (err) { console.error('Gagal salin'); }
+            document.body.removeChild(textArea);
+        }
+
+        // RSVP (Data tersimpan di perangkat tamu secara lokal)
+        const STORAGE_KEY = 'rsvp_${invId}';
+        function loadGuestbook() {
+            const container = document.getElementById('guestbook-container');
+            if(!container) return;
+            container.innerHTML = '';
+            let messages = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            if(messages.length === 0) {
+                messages = [
+                    { name: 'Tamu Spesial', status: 'Hadir', msg: 'Selamat atas acaranya! Semoga selalu dilimpahkan kebahagiaan.' }
+                ];
+            }
+            messages.slice().reverse().forEach(data => {
+                const div = document.createElement('div');
+                div.className = 'guest-msg';
+                const statusColor = data.status === 'Hadir' ? '#2ecc71' : '#e74c3c';
+                div.innerHTML = \`<div class="guest-msg-header"><span class="guest-name">\${data.name}</span><span class="guest-status" style="color:\${statusColor}; border: 1px solid \${statusColor}">\${data.status}</span></div><div class="guest-text">\${data.msg}</div>\`;
+                container.appendChild(div);
+            });
+        }
+
+        function submitRSVP() {
+            const name = document.getElementById('rsvp-name').value;
+            const status = document.getElementById('rsvp-status').value;
+            const msg = document.getElementById('rsvp-msg').value;
+            if(!name || !msg) { alert('Mohon lengkapi nama dan ucapan Anda.'); return; }
+            const newData = { name, status, msg };
+            let messages = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            messages.push(newData);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+            document.getElementById('rsvp-name').value = '';
+            document.getElementById('rsvp-msg').value = '';
+            loadGuestbook();
+        }
+
+        // Efek Latar/Falling Effects
+        let effectInterval;
+        function changeEffect(type) {
+            const container = document.getElementById('falling-container');
+            if(!container) return;
+            container.innerHTML = '';
+            clearInterval(effectInterval);
+            if (type === 'none') return;
+            let maxItems = 20, intervalMs = 800;
+            if(type === 'balloons') { maxItems = 12; intervalMs = 1200; }
+            if(type === 'confetti') { maxItems = 40; intervalMs = 300; }
+            if(type === 'fireflies') { maxItems = 25; intervalMs = 800; }
+
+            effectInterval = setInterval(() => {
+                if(container.childElementCount > maxItems) container.removeChild(container.firstChild);
+                const el = document.createElement('div');
+                el.className = 'falling-item';
+                let size = Math.random() * 10 + 5;
+                let left = Math.random() * 100;
+                let duration = Math.random() * 5 + 5;
+                el.style.left = left + '%'; el.style.animationDuration = duration + 's'; el.style.top = '-10%';
+
+                if (type === 'snow') {
+                    el.style.width = size + 'px'; el.style.height = size + 'px'; el.style.background = '#ffffff'; el.style.borderRadius = '50%'; el.style.boxShadow = '0 0 5px #fff'; el.style.opacity = '0.8'; el.style.animationName = 'fall';
+                } else if (type === 'petals') {
+                    el.style.width = size + 'px'; el.style.height = (size * 1.5) + 'px'; el.style.background = 'var(--inv-accent)'; el.style.borderRadius = '50% 0 50% 0'; el.style.opacity = '0.6'; el.style.animationName = 'fall';
+                } else if (type === 'hearts') {
+                    el.innerText = '❤'; el.style.color = '#ff4d4d'; el.style.fontSize = (size + 10) + 'px'; el.style.opacity = '0.7'; el.style.animationName = 'fall';
+                } else if (type === 'autumn') {
+                    const leaves = ['🍂', '🍁']; el.innerText = leaves[Math.floor(Math.random() * leaves.length)]; el.style.fontSize = (size + 15) + 'px'; el.style.opacity = '0.8'; el.style.animationName = 'fall';
+                } else if (type === 'balloons') {
+                    el.innerText = '🎈'; el.style.fontSize = (size + 25) + 'px'; el.style.top = '100%'; el.style.animationName = 'float-up'; duration = Math.random() * 4 + 6; el.style.animationDuration = duration + 's';
+                } else if (type === 'confetti') {
+                    const colors = ['#ff5252', '#00e676', '#00b0ff', '#ffea00', '#ab47bc']; el.style.width = Math.random() * 8 + 5 + 'px'; el.style.height = Math.random() * 15 + 10 + 'px'; el.style.background = colors[Math.floor(Math.random() * colors.length)]; el.style.borderRadius = '2px'; el.style.opacity = '0.9'; el.style.animationName = 'fall'; duration = Math.random() * 3 + 3; el.style.animationDuration = duration + 's';
+                } else if (type === 'fireflies') {
+                    el.style.width = size + 'px'; el.style.height = size + 'px'; el.style.background = '#ffeb3b'; el.style.borderRadius = '50%'; el.style.boxShadow = '0 0 10px #ffeb3b, 0 0 20px #ffeb3b'; el.style.top = '100%'; el.style.animationName = 'twinkle-float'; duration = Math.random() * 6 + 6; el.style.animationDuration = duration + 's';
+                }
+                container.appendChild(el);
+                setTimeout(() => { if(el.parentNode) el.parentNode.removeChild(el); }, duration * 1000);
+            }, intervalMs);
+        }
+
+        // Countdown Timer
+        function setupCountdown(dateString) {
+            if (!dateString) return;
+            const targetDate = new Date(dateString).getTime();
+            setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                if (distance < 0) return;
+                const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                if(document.getElementById('cd-days')) document.getElementById('cd-days').innerText = d < 10 ? '0'+d : d;
+                if(document.getElementById('cd-hours')) document.getElementById('cd-hours').innerText = h < 10 ? '0'+h : h;
+                if(document.getElementById('cd-mins')) document.getElementById('cd-mins').innerText = m < 10 ? '0'+m : m;
+                if(document.getElementById('cd-secs')) document.getElementById('cd-secs').innerText = s < 10 ? '0'+s : s;
+            }, 1000);
+        }
+
+        function checkGuestName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const guestName = urlParams.get('to');
+            if (guestName) {
+                const cleanName = decodeURIComponent(guestName).replace(/\\+/g, ' ');
+                if(document.getElementById('guest-name-display')) {
+                    document.getElementById('guest-name-display').innerText = cleanName;
+                }
+            }
+        }
+
+        window.onload = () => {
+            checkGuestName();
+            loadGuestbook();
+            changeEffect('${activeEffect}');
+            setupCountdown('${targetDate}');
+        };
+    <\/script>
+</body>
+</html>`;
+
+        // 5. Ubah String HTML menjadi file Blob
+        const blob = new Blob([exportedHTML], { type: 'text/html' });
+        const downloadUrl = URL.createObjectURL(blob);
+        
+        // 6. Buat elemen <a> sementara untuk men-trigger download
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = invId ? `${invId}.html` : 'undangan_digital.html';
+        document.body.appendChild(a);
+        a.click();
+        
+        // 7. Cleanup resource
+        document.body.removeChild(a);
+        URL.revokeObjectURL(downloadUrl);
+        
+        // Kembalikan animasi jika dibutuhkan
+        changeEffect(activeEffect);
     }
 
     // --- 11. FITUR BARU: CLOUD STORAGE (GOOGLE SHEETS) ---
@@ -1901,22 +2220,28 @@
     }
 
     function applyFormConfigData(config) {
+        // 1. Terapkan kerangka utama terlebih dahulu (menyesuaikan jumlah input foto, tema, dan jenis form)
+        if (config['input-event-type']) changeEventType(config['input-event-type']);
+        if (config['theme-selector']) applyTheme(config['theme-selector']);
+        if (config['input-effect']) changeEffect(config['input-effect']);
+        if (config['input-gallery-style']) changeGalleryStyle(config['input-gallery-style']);
+        if (config['input-gallery-count']) changeGalleryCount(config['input-gallery-count']);
+
+        // 2. Isi value spesifik pengguna untuk menimpa text default dari fungsi di atas
         for (const [key, value] of Object.entries(config)) {
             const el = document.getElementById(key);
             if (el) {
                 el.value = value;
                 // Trigger event untuk mengupdate preview realtime
                 el.dispatchEvent(new Event('input', { bubbles: true }));
-                el.dispatchEvent(new Event('change', { bubbles: true }));
+                
+                // PENTING: Jangan trigger event 'change' pada dropdown 'jenis acara' dan 'tema' 
+                // karena akan mereset teks yang sudah di-load kembali ke teks dummy bawaan.
+                if (key !== 'input-event-type' && key !== 'theme-selector') {
+                    el.dispatchEvent(new Event('change', { bubbles: true }));
+                }
             }
         }
-        
-        // Pastikan tema, jenis acara, efek, dan galeri di-render ulang
-        if (config['theme-selector']) applyTheme(config['theme-selector']);
-        if (config['input-event-type']) changeEventType(config['input-event-type']);
-        if (config['input-effect']) changeEffect(config['input-effect']);
-        if (config['input-gallery-style']) changeGalleryStyle(config['input-gallery-style']);
-        if (config['input-gallery-count']) changeGalleryCount(config['input-gallery-count']);
     }
 
     function showCloudStatus(message, isError = false) {
