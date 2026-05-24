@@ -1657,16 +1657,7 @@
     const audioControl = document.getElementById('audio-control');
     let isPlaying = false;
 
-    // Fungsi Request Fullscreen
-    function toggleFullScreen(elem) {
-        if (!document.fullscreenElement) {
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen().catch(err => console.log(err));
-            } else if (elem.webkitRequestFullscreen) { // Safari
-                elem.webkitRequestFullscreen().catch(err => console.log(err));
-            }
-        }
-    }
+    // FITUR FULLSCREEN DIHAPUS AGAR STICKY BOTTOM SELALU AMAN & TERLIHAT
 
     function openInvitation() {
         // Animasi buka cover
@@ -1674,10 +1665,6 @@
         
         document.getElementById('bottom-nav').classList.add('visible');
         document.getElementById('darkmode-toggle').classList.add('visible');
-        
-        // Picu layar penuh (Fullscreen) otomatis pada area undangan
-        const mockup = document.getElementById('phone-mockup');
-        toggleFullScreen(mockup);
         
         // Sembunyikan tombol melayang (navigasi & musik) jika admin di mode mobile sedang terbuka saat membuka cover
         const panel = document.getElementById('admin-panel');
@@ -1723,11 +1710,6 @@
         document.getElementById('cover-page').classList.remove('opened');
         audioControl.style.display = 'none';
         
-        // Keluar dari mode layar penuh jika sedang aktif
-        if (document.fullscreenElement) {
-            document.exitFullscreen().catch(err => console.log(err));
-        }
-
         // Sembunyikan navigasi & toggle saat cover tertutup
         const bottomNav = document.getElementById('bottom-nav');
         bottomNav.classList.remove('visible');
@@ -1983,7 +1965,7 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100dvh; /* Kunci agar web full tinggi layar */
+            height: 100dvh; /* Kunci agar web full tinggi layar browser */
             overflow: hidden; /* Mencegah scroll di luar mockup hp */
         }
         body { 
@@ -1995,7 +1977,7 @@
         #phone-mockup { 
             width: 100%; 
             max-width: 500px; 
-            height: 100%; /* Memenuhi body (100dvh) */
+            height: 100%; /* Memenuhi body (100dvh) tanpa fullscreen paksa */
             border: none; 
             border-radius: 0; 
             margin: 0 auto; 
@@ -2032,24 +2014,13 @@
         const audioControl = document.getElementById('audio-control');
         let isPlaying = false;
 
-        function toggleFullScreen() {
-            const elem = document.documentElement;
-            if (!document.fullscreenElement) {
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen().catch(err => console.log(err));
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen().catch(err => console.log(err));
-                }
-            }
-        }
-
         function openInvitation() {
             document.getElementById('cover-page').classList.add('opened');
             audioControl.style.display = 'flex';
             document.getElementById('bottom-nav').classList.add('visible');
             document.getElementById('darkmode-toggle').classList.add('visible');
             
-            toggleFullScreen(); // Otomatis Layar Penuh untuk Tamu
+            // FUNGSI FULLSCREEN DIHAPUS DI SINI AGAR NAVIGASI BAWAH SELALU TAMPIL SEMPURNA
             playAudio();
         }
 
