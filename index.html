@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InviGen - Generator Undangan Digital Premium</title>
+    
+    <!-- Google Fonts - Diperbarui dengan berbagai jenis font untuk 19 Template -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Fredoka:wght@300;400;500;600&family=Great+Vibes&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&family=Quicksand:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Variabel CSS untuk Sistem Tema (Bisa diubah via JS) */
+            --inv-bg: #fdfbf7;
+            --inv-text-main: #333333;
+            --inv-accent: #c5a880;
+            --inv-font-heading: 'Playfair Display', serif;
+            --inv-font-body: 'Poppins', sans-serif;
+            --inv-font-cursive: 'Great Vibes', cursive;
+            
+            /* UI Admin Colors */
+            --admin-bg: #1e1e2f;
+            --admin-surface: #2a2a40;
+            --admin-text: #ffffff;
+            --admin-border: #3f3f5a;
+            --admin-primary: #6c5ce7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f0f16;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* --- LAYOUT UTAMA --- */
+        #app-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- PANEL ADMIN (KIRI) --- */
+        #admin-panel {
+            width: 400px;
+            background-color: var(--admin-bg);
+            color: var(--admin-text);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--admin-border);
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .admin-header {
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-bottom: 1px solid var(--admin-border);
+            text-align: center;
+        }
+
+        .admin-header h1 {
+            font-size: 1.5rem;
+            color: var(--admin-primary);
+            font-weight: 600;
+        }
+
+        .admin-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .admin-content::-webkit-scrollbar { width: 6px; }
+        .admin-content::-webkit-scrollbar-thumb { background: var(--admin-border); border-radius: 4px; }
+
+        .form-section {
+            background: var(--admin-surface);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .form-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--admin-border);
+            padding-bottom: 10px;
+            color: #a29bfe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--admin-border);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.3);
+        }
+
+        .theme-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-theme {
+            background: var(--admin-border);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-theme:hover, .btn-theme.active {
+            background: var(--admin-primary);
+        }
+
+        .color-picker-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .color-picker-group input[type="color"] {
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .admin-footer {
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-top: 1px solid var(--admin-border);
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: var(--admin-primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+        .btn-primary:hover { background: #5a4bcf; }
+
+        /* --- PREVIEW CONTAINER (KANAN) --- */
+        #preview-area {
+            flex: 1;
+            background: #12121a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-image: radial-gradient(circle at center, #2a2a40 0%, #12121a 100%);
+        }
+
+        /* Mockup HP */
+        #phone-mockup {
+            width: 414px; /* Lebar standar iPhone Max */
+            height: 850px;
+            max-height: 95vh;
+            background: var(--inv-bg);
+            border-radius: 40px;
+            border: 12px solid #333;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- AREA UNDANGAN (DALAM MOCKUP) --- */
+        #invitation-frame {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            color: var(--inv-text-main);
+            font-family: var(--inv-font-body);
+            scroll-behavior: smooth;
+        }
+        #invitation-frame::-webkit-scrollbar { width: 0px; } /* Hide scrollbar in preview */
+
+        /* COVER PAGE (Sampul depan) */
+        #cover-page {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--inv-bg);
+            background-size: cover;
+            background-position: center;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        
+        #cover-page::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), var(--inv-bg));
+            z-index: -1;
+        }
+
+        #cover-page.opened {
+            transform: translateY(-100%);
+        }
+
+        .cover-title {
+            font-family: var(--inv-font-heading);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--inv-accent);
+        }
+
+        .cover-names {
+            font-family: var(--inv-font-cursive);
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            color: var(--inv-text-main);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .guest-box {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .guest-box p { font-size: 0.9rem; margin-bottom: 5px; }
+        .guest-box h4 { font-family: var(--inv-font-heading); font-size: 1.3rem; font-weight: bold; }
+
+        .btn-open {
+            background: var(--inv-accent);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-family: var(--inv-font-body);
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* KONTEN UNDANGAN UTAMA */
+        .inv-section {
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Hero / Opening */
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom, transparent, var(--inv-bg));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-family: var(--inv-font-cursive);
+            font-size: 2.5rem;
+            color: var(--inv-accent);
+            margin-bottom: 10px;
+        }
+
+        .main-names {
+            font-family: var(--inv-font-heading);
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            line-height: 1.3;
+        }
+
+        .main-names span {
+            font-family: var(--inv-font-cursive);
+            font-size: 2rem;
+            color: var(--inv-accent);
+            display: block;
+        }
+
+        /* Profile Section */
+        .profile-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        .profile-card {
+            background: rgba(255,255,255,0.5);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .profile-img {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 5px solid var(--inv-accent);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .profile-name { font-family: var(--inv-font-heading); font-size: 1.5rem; font-weight: bold; margin-bottom: 5px;}
+        .profile-parents { font-size: 0.85rem; opacity: 0.8; }
+
+        /* Date & Location */
+        .event-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--inv-accent);
+        }
+        .event-title { font-family: var(--inv-font-heading); font-size: 1.5rem; margin-bottom: 15px; }
+        .event-detail { margin-bottom: 15px; font-size: 0.95rem; }
+        .event-detail i { color: var(--inv-accent); margin-right: 8px; }
+
+        /* Countdown */
+        .countdown-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+        .cd-box {
+            background: var(--inv-accent);
+            color: white;
+            width: 65px; height: 75px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .cd-num { font-size: 1.5rem; font-weight: bold; font-family: var(--inv-font-heading); }
+        .cd-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- FITUR BARU: GALLERY STYLES --- */
+        .gallery-wrapper { width: 100%; margin-top: 20px; transition: all 0.3s ease; }
+        .gallery-item { 
+            width: 100%; object-fit: cover; border-radius: 10px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s; 
+        }
+
+        /* 1. Grid Modern */
+        .style-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .style-grid .gallery-item { height: 150px; }
+        .style-grid .gallery-item:first-child { grid-column: span 2; height: 200px; }
+
+        /* 2. Slider (Carousel Horizontal) */
+        .style-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; scrollbar-width: none; }
+        .style-slider::-webkit-scrollbar { display: none; }
+        .style-slider .gallery-item { flex: 0 0 85%; height: 250px; scroll-snap-align: center; border-radius: 20px; }
+
+        /* 3. Masonry (Pinterest Style) */
+        .style-masonry { column-count: 2; column-gap: 10px; }
+        .style-masonry .gallery-item { margin-bottom: 10px; display: block; break-inside: avoid; }
+        .style-masonry .gallery-item:first-child { height: 200px; }
+        .style-masonry .gallery-item:nth-child(2) { height: 140px; }
+        .style-masonry .gallery-item:nth-child(3) { height: 240px; }
+
+        /* 4. Grid Classic (Simetris) */
+        .style-classic { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .style-classic .gallery-item { height: 160px; }
+
+        /* Digital Gift */
+        .gift-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px dashed var(--inv-accent);
+            margin-top: 20px;
+        }
+        .bank-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
+        .bank-rek { font-family: monospace; font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 15px; color: var(--inv-accent); }
+        .btn-copy {
+            background: #f0f0f0; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .btn-copy:hover { background: #e0e0e0; }
+
+        /* RSVP */
+        .rsvp-form {
+            text-align: left;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .rsvp-form .form-group label { color: var(--inv-text-main); font-weight: 500; }
+        .rsvp-form .form-group input, .rsvp-form .form-group textarea, .rsvp-form .form-group select {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+        .rsvp-form .form-group input:focus { border-color: var(--inv-accent); box-shadow: none; }
+        .btn-submit {
+            width: 100%; background: var(--inv-accent); color: white; border: none; padding: 12px;
+            border-radius: 8px; font-weight: bold; cursor: pointer;
+        }
+
+        .guestbook-list {
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .guest-msg {
+            background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--inv-accent);
+        }
+        .guest-msg-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .guest-name { font-weight: bold; font-size: 0.9rem; }
+        .guest-status { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; background: #eee; }
+        .guest-text { font-size: 0.85rem; color: #555; }
+
+        /* Floating Audio Button */
+        #audio-control {
+            position: absolute;
+            bottom: 85px; right: 20px; /* Disesuaikan agar tidak bertumpuk dengan navigasi bawah */
+            width: 45px; height: 45px;
+            background: var(--inv-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+            z-index: 40;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: spin 4s linear infinite;
+        }
+        #audio-control.paused { animation: none; opacity: 0.7; }
+
+        /* --- FITUR BARU: BOTTOM NAV & DARK MODE TOGGLE --- */
+        #bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: #ffffff; /* Mengubah menjadi solid color */
+            /* Menghapus border-radius dan backdrop-filter untuk sudut tajam yang solid */
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        #bottom-nav.visible { transform: translateY(0); }
+        
+        .nav-item {
+            color: #888;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+        }
+        .nav-item.active, .nav-item:hover {
+            color: var(--inv-accent);
+            transform: translateY(-4px) scale(1.1);
+        }
+
+        #darkmode-toggle {
+            position: absolute;
+            top: 20px; right: 20px;
+            width: 40px; height: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer;
+            z-index: 60;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0; pointer-events: none;
+            transition: 0.3s;
+        }
+        #darkmode-toggle.visible { opacity: 1; pointer-events: auto; }
+
+        /* Dark Mode CSS Overrides */
+        #phone-mockup.dark-mode #invitation-frame,
+        #phone-mockup.dark-mode .inv-section { background-color: #121212 !important; color: #e0e0e0 !important; }
+        #phone-mockup.dark-mode #bottom-nav { background: #1e1e1e !important; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
+        #phone-mockup.dark-mode #darkmode-toggle { background: rgba(30, 30, 30, 0.8); color: #fff; }
+        #phone-mockup.dark-mode .event-card, 
+        #phone-mockup.dark-mode .profile-card, 
+        #phone-mockup.dark-mode .gift-box, 
+        #phone-mockup.dark-mode .rsvp-form, 
+        #phone-mockup.dark-mode .guest-msg {
+            background: #1e1e1e !important;
+            border-color: #333 !important;
+            color: #f0f0f0 !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
+        }
+        #phone-mockup.dark-mode .rsvp-form input, 
+        #phone-mockup.dark-mode .rsvp-form textarea, 
+        #phone-mockup.dark-mode .rsvp-form select { background: #2a2a2a !important; border-color: #444 !important; color: #fff !important; }
+        #phone-mockup.dark-mode .hero-overlay { background: linear-gradient(to bottom, transparent, #121212) !important; }
+        #phone-mockup.dark-mode .guest-name, #phone-mockup.dark-mode .rsvp-form label { color: #f0f0f0 !important; }
+
+        /* Falling Animation Container */
+        #falling-container {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden;
+        }
+        .falling-item {
+            position: absolute;
+            animation: fall linear forwards;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+
+        /* Animations */
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes float-up {
+            0% { transform: translateY(10vh) rotate(-15deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(15deg); opacity: 0; }
+        }
+        @keyframes twinkle-float {
+            0% { transform: translateY(10vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.8; transform: translateY(-50vh) scale(1.5); }
+            100% { transform: translateY(-110vh) scale(0.5); opacity: 0; }
+        }
+        @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* ========================================================
+           SISTEM TEMA DINAMIS (LAYOUT, ANIMASI, BENTUK ORNAMEN)
+           Kelas CSS ini diaktifkan otomatis oleh JavaScript
+           ======================================================== */
+        
+        #invitation-frame { transition: background 0.5s, color 0.5s; }
+
+        /* 1. Islami & Kartun Islami - Ornamen Kubah/Arch */
+        .theme-islami .profile-img, .theme-kartun-islami .profile-img { border-radius: 50% 50% 10px 10px; border: 3px solid var(--inv-accent); }
+        .theme-islami .event-card, .theme-kartun-islami .event-card { border-radius: 30px 30px 10px 10px; border-top: 8px solid var(--inv-accent); }
+        .theme-islami .section-title::before, .theme-islami .section-title::after { content: '✨'; font-size: 1rem; color: var(--inv-accent); margin: 0 10px; }
+
+        /* 2. Rustic & Floral - Elemen Bunga / Dekoratif Lembut */
+        .theme-rustic .inv-section { border-bottom: 1px dashed var(--inv-accent); }
+        .theme-floral .profile-img { border: 8px double var(--inv-accent); }
+        .theme-floral .btn-open { border-radius: 10px 30px 10px 30px; }
+        .theme-floral .section-title::after { content: '✿'; font-size: 1.5rem; position: absolute; right: 20%; opacity: 0.5; color: var(--inv-accent); }
+
+        /* 3. Minimalist & Minimal Modern - Bersih, Sudut Tajam/Tegas */
+        .theme-minimalist .profile-card { border-radius: 0; box-shadow: none; border-bottom: 1px solid #ddd; background: transparent; }
+        .theme-minimalist .btn-open, .theme-minimalist .event-card { border-radius: 0; box-shadow: none; }
+        .theme-minimal-modern .btn-open, .theme-minimal-modern .event-card, .theme-minimal-modern .profile-card { border-radius: 5px; box-shadow: 4px 4px 0px var(--inv-accent); border: 1px solid var(--inv-text-main); }
+
+        /* 4. Luxury Black - Elegan, Gelap, Emas */
+        .theme-luxury .event-card, .theme-luxury .gift-box, .theme-luxury .rsvp-form, .theme-luxury .profile-card { background: #1a1a1a; color: #fff; border: 1px solid var(--inv-accent); box-shadow: inset 0 0 10px rgba(0,0,0,0.8); }
+        .theme-luxury .guest-box { background: rgba(0,0,0,0.6); border: 1px solid var(--inv-accent); color: white;}
+        .theme-luxury .btn-open { text-transform: uppercase; letter-spacing: 2px; border-radius: 5px;}
+
+        /* 5. Modern Korean - Lembut, Rounded, Glassmorphism */
+        .theme-korean .inv-section { margin: 10px; border-radius: 20px; background: rgba(255,255,255,0.4); backdrop-filter: blur(10px); }
+        .theme-korean .profile-img { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; border: none; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        /* 6. Traditional Indonesia */
+        .theme-traditional .inv-section { border-left: 4px solid var(--inv-accent); border-right: 4px solid var(--inv-accent); background: linear-gradient(rgba(250, 240, 230, 0.9), rgba(250, 240, 230, 0.9)), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.02) 10px, rgba(0,0,0,0.02) 20px); }
+        .theme-traditional .section-title { text-decoration: underline; text-decoration-color: var(--inv-accent); text-decoration-style: double; }
+
+        /* 7. Vintage */
+        .theme-vintage .event-card, .theme-vintage .profile-card, .theme-vintage .gift-box { background: rgba(255,255,255,0.3); border: 2px dashed var(--inv-accent); box-shadow: none; }
+        .theme-vintage .profile-img, .theme-vintage .gallery-item { filter: sepia(0.8); border-radius: 0; border: 4px solid var(--inv-text-main); padding: 5px; }
+
+        /* 8. Tropical */
+        .theme-tropical .profile-img { border-radius: 50%; border: 5px solid var(--inv-accent); outline: 5px dashed var(--inv-accent); outline-offset: 5px; margin-bottom: 25px; }
+
+        /* 9. Ceria Anak & Birthday Party - Playful, Bouncy */
+        .theme-ceria .profile-card, .theme-birthday .profile-card, .theme-ceria .event-card, .theme-birthday .event-card, .theme-ceria .rsvp-form { border-radius: 30px; border: 3px solid var(--inv-text-main); box-shadow: 6px 6px 0px var(--inv-text-main); }
+        .theme-ceria .btn-open, .theme-birthday .btn-open { animation: bounce-slow 1s infinite; border-radius: 15px; border: 2px solid var(--inv-text-main); }
+        .theme-ceria .gallery-item, .theme-birthday .gallery-item { border-radius: 15px; border: 2px solid var(--inv-text-main); }
+
+        /* 10. Formal Event & Seminar - Corporate, Rata Kiri */
+        .theme-formal .inv-section, .theme-seminar .inv-section { text-align: left; }
+        .theme-formal .section-title, .theme-seminar .section-title { text-align: left; font-size: 2rem; border-bottom: 2px solid var(--inv-accent); display: inline-block; padding-bottom: 5px; margin-bottom: 20px; }
+        .theme-formal .profile-img, .theme-seminar .profile-img { width: 100%; border-radius: 5px; height: auto; border: none; }
+        .theme-seminar .guest-box, .theme-formal .guest-box { background: var(--inv-accent); border-radius: 5px; }
+        .theme-seminar .guest-box *, .theme-formal .guest-box * { color: white; }
+        .theme-seminar .cd-box { border-radius: 0; background: var(--inv-text-main); }
+
+        /* 11. Pastel Kids */
+        .theme-pastel .inv-section { background: linear-gradient(135deg, rgba(255,255,255,0.7), rgba(255,255,255,0.1)); border-radius: 40px; margin: 15px; }
+        .theme-pastel .profile-img { border: 10px solid #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        /* 12. Graduation */
+        .theme-graduation .profile-img { border-radius: 10px; border: 4px solid var(--inv-accent); }
+        .theme-graduation .event-card { border-left: 10px solid var(--inv-accent); border-top: none; border-radius: 5px; }
+
+        /* 13. Family Gathering */
+        .theme-gathering .profile-img { border-radius: 50px 0 50px 0; border: 4px solid var(--inv-accent); }
+
+        /* Mobile Toggle Admin */
+        #mobile-admin-toggle {
+            display: none;
+            position: fixed; bottom: 85px; left: 20px; /* Disesuaikan agar tidak terhalang menu bawah */
+            width: 50px; height: 50px;
+            background: var(--admin-primary); color: white;
+            border-radius: 50%;
+            text-align: center; line-height: 50px;
+            z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            #admin-panel {
+                position: fixed;
+                left: -400px; /* Hidden by default on mobile */
+                height: 100%;
+                box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+                z-index: 999; /* Pastikan selalu di atas elemen preview pada mobile */
+            }
+            #admin-panel.open { left: 0; }
+            #phone-mockup {
+                width: 100%; height: 100%;
+                border-radius: 0; border: none; max-height: none;
+            }
+            #mobile-admin-toggle { display: block; }
+        }
+
+        /* --- OVERRIDES UNTUK KONTROL MANUAL BENTUK TOMBOL --- */
+        .btn-open, .btn-submit, .btn-copy, .cd-box {
+            border-radius: var(--btn-radius, 30px) !important;
+            transition: border-radius 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+
+    <!-- PANEL ADMIN (KIRI) -->
+    <aside id="admin-panel">
+        <div class="admin-header">
+            <h1><i class="fa-solid fa-wand-magic-sparkles"></i> InviGen Panel</h1>
+            <p style="font-size: 0.8rem; color: #aaa;">Generator Undangan Realtime</p>
+        </div>
+
+        <div class="admin-content">
+            <!-- FITUR BARU: Penyimpanan Cloud -->
+            <div class="form-section" style="border: 1px solid var(--admin-primary); background: rgba(108, 92, 231, 0.1);">
+                <h3 style="color: #fff;"><i class="fa-solid fa-cloud"></i> Penyimpanan Database (G-Sheets)</h3>
+                <div class="form-group">
+                    <label>URL Aplikasi Web Google Apps Script</label>
+                    <input type="text" id="app-script-url" value="https://script.google.com/macros/s/AKfycbxq_47tzE08UX75L9lCDZ1hji30j1V8Bhn0fqOKBgqSlxX2eC6_F55mLYK19RbG_5s3/exec" placeholder="https://script.google.com/macros/s/.../exec">
+                </div>
+                <div class="form-group">
+                    <label>ID Undangan (Unik per Acara)</label>
+                    <input type="text" id="invitation-id" placeholder="contoh: budi-siti-2026">
+                    <small style="color: #a29bfe; font-size: 0.75rem;">Gunakan ID berbeda agar data Pernikahan A dan Khitanan B tidak saling menimpa.</small>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn-theme" style="flex: 1; background: #00b894; font-weight: bold;" onclick="saveToCloud()"><i class="fa-solid fa-cloud-arrow-up"></i> Simpan</button>
+                    <button class="btn-theme" style="flex: 1; background: #0984e3; font-weight: bold;" onclick="loadFromCloud()"><i class="fa-solid fa-cloud-arrow-down"></i> Muat Data</button>
+                </div>
+                <div id="cloud-status" style="margin-top: 15px; font-size: 0.85rem; text-align: center; color: #ffeaa7; font-weight: 500;"></div>
+            </div>
+
+            <!-- Pilihan Tema -->
+            <div class="form-section">
+                <h3><i class="fa-solid fa-palette"></i> Pilih Template / Tema</h3>
+                <div class="form-group">
+                    <select id="theme-selector" onchange="applyTheme(this.value)" style="padding: 12px; font-weight: bold; background: #3f3f5a; cursor: pointer; color: white;">
+                        <optgroup label="Pernikahan">
+                            <option value="elegant">Elegant Gold</option>
+                            <option value="rustic">Rustic</option>
+                            <option value="minimalist">Minimalist White</option>
+                            <option value="islami">Islami</option>
+                            <option value="floral">Floral</option>
+                            <option value="luxury">Luxury Black</option>
+                            <option value="korean">Modern Korean</option>
+                            <option value="traditional">Traditional Indonesia</option>
+                            <option value="vintage">Vintage</option>
+                            <option value="tropical">Tropical</option>
+                        </optgroup>
+                        <optgroup label="Khitanan">
+                            <option value="ceria">Ceria Anak</option>
+                            <option value="kartun-islami">Kartun Islami</option>
+                            <option value="minimal-modern">Minimal Modern</option>
+                            <option value="pastel">Pastel Kids</option>
+                        </optgroup>
+                        <optgroup label="Acara Umum">
+                            <option value="formal">Formal Event</option>
+                            <option value="seminar">Seminar</option>
+                            <option value="birthday">Birthday Party</option>
+                            <option value="graduation">Graduation</option>
+                            <option value="gathering">Family Gathering</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Kustomisasi Tampilan (Warna, Font, Tombol) -->
+            <div class="form-section">
+                <h3><i class="fa-solid fa-pen-nib"></i> Kustom Tampilan</h3>
+                
+                <div class="color-picker-group">
+                    <input type="color" id="color-bg" value="#fdfbf7" oninput="updateCSSVar('--inv-bg', this.value)">
+                    <label>Background</label>
+                </div>
+                <div class="color-picker-group">
+                    <input type="color" id="color-accent" value="#c5a880" oninput="updateCSSVar('--inv-accent', this.value)">
+                    <label>Warna Aksen / Ornamen</label>
+                </div>
+                <div class="color-picker-group" style="margin-bottom: 20px;">
+                    <input type="color" id="color-text" value="#333333" oninput="updateCSSVar('--inv-text-main', this.value)">
+                    <label>Teks Utama</label>
+                </div>
+
+                <div class="form-group">
+                    <label>Font Judul / Header</label>
+                    <select id="input-font-heading" onchange="updateCSSVar('--inv-font-heading', this.value)">
+                        <option value="'Playfair Display', serif">Playfair Display (Elegan)</option>
+                        <option value="'Lora', serif">Lora (Klasik)</option>
+                        <option value="'Cinzel', serif">Cinzel (Mewah/Formal)</option>
+                        <option value="'Amiri', serif">Amiri (Nuansa Islami)</option>
+                        <option value="'Sacramento', cursive">Sacramento (Sambung Cantik)</option>
+                        <option value="'Great Vibes', cursive">Great Vibes (Sambung Mewah)</option>
+                        <option value="'Fredoka', sans-serif">Fredoka (Ceria/Anak)</option>
+                        <option value="'Poppins', sans-serif">Poppins (Modern Bersih)</option>
+                        <option value="'Quicksand', sans-serif">Quicksand (Modern Bulat)</option>
+                        <option value="'Courier Prime', monospace">Courier Prime (Mesin Tik/Vintage)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Font Teks Utama</label>
+                    <select id="input-font-body" onchange="updateCSSVar('--inv-font-body', this.value)">
+                        <option value="'Poppins', sans-serif">Poppins (Modern Bersih)</option>
+                        <option value="'Quicksand', sans-serif">Quicksand (Modern Bulat)</option>
+                        <option value="'Lora', serif">Lora (Klasik/Buku)</option>
+                        <option value="'Fredoka', sans-serif">Fredoka (Ceria/Anak)</option>
+                        <option value="'Courier Prime', monospace">Courier Prime (Mesin Tik/Vintage)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Bentuk Tombol & Kotak</label>
+                    <select id="input-btn-shape" onchange="updateCSSVar('--btn-radius', this.value)">
+                        <option value="30px">Pill (Bulat Penuh)</option>
+                        <option value="25px">Pill Medium (25px)</option>
+                        <option value="15px">Rounded Besar (15px)</option>
+                        <option value="8px">Rounded Sedang (8px)</option>
+                        <option value="5px">Rounded Kecil (5px)</option>
+                        <option value="0px">Square (Kotak Tajam)</option>
+                        <option value="15px 0 15px 0">Leaf (Bentuk Daun)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Data Acara -->
+            <div class="form-section">
+                <h3><i class="fa-solid fa-heart"></i> Data Mempelai / Acara</h3>
+                <div class="form-group">
+                    <label>Jenis Undangan</label>
+                    <select id="input-event-type" onchange="changeEventType(this.value)">
+                        <option value="pernikahan">Pernikahan</option>
+                        <option value="engagement">Engagement</option>
+                        <option value="khitanan">Khitanan</option>
+                        <option value="ulang_tahun">Ulang Tahun</option>
+                        <option value="aqiqah">Aqiqah</option>
+                        <option value="wisuda">Wisuda</option>
+                        <option value="tasyakuran">Tasyakuran</option>
+                        <option value="seminar">Seminar / Event</option>
+                        <option value="lainnya">Acara Adat Lainnya</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Judul Acara (Header)</label>
+                    <input type="text" id="input-title" value="The Wedding Of" oninput="updateText('prev-title', this.value)">
+                </div>
+
+                <!-- Form untuk Acara Pasangan (Pernikahan/Engagement) -->
+                <div id="form-group-wedding">
+                    <div class="form-group">
+                        <label>URL Foto Mempelai Pria</label>
+                        <input type="text" value="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80" oninput="updateImage('img-groom', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Mempelai Pria</label>
+                        <input type="text" id="input-groom" value="Romeo" oninput="updateText('prev-groom', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Orang Tua Pria</label>
+                        <input type="text" id="input-groom-parents" value="Putra dari Bpk. Montague & Ibu Lady Montague" oninput="updateText('prev-groom-parents', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>URL Foto Mempelai Wanita</label>
+                        <input type="text" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" oninput="updateImage('img-bride', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Mempelai Wanita</label>
+                        <input type="text" id="input-bride" value="Juliet" oninput="updateText('prev-bride', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Orang Tua Wanita</label>
+                        <input type="text" id="input-bride-parents" value="Putri dari Bpk. Capulet & Ibu Lady Capulet" oninput="updateText('prev-bride-parents', this.value)">
+                    </div>
+                </div>
+
+                <!-- Form untuk Acara Tunggal (Khitanan/Ultah/Seminar/dll) -->
+                <div id="form-group-single" style="display: none;">
+                    <div class="form-group">
+                        <label id="label-single-photo">URL Foto Utama</label>
+                        <input type="text" value="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=300&q=80" oninput="updateImage('img-single', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label id="label-single-name">Nama Anak / Tokoh Utama</label>
+                        <input type="text" id="input-single-name" value="Budi Santoso" oninput="updateText('prev-single-name', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label id="label-single-parents">Nama Orang Tua / Keterangan</label>
+                        <input type="text" id="input-single-parents" value="Putra dari Bpk. Santoso & Ibu Ratna" oninput="updateText('prev-single-parents', this.value)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Kata Pengantar</label>
+                    <textarea id="input-intro" rows="3" oninput="updateText('prev-intro', this.value)">Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.</textarea>
+                </div>
+            </div>
+
+            <!-- Cerita Singkat -->
+            <div class="form-section">
+                <h3><i class="fa-solid fa-book-open"></i> Cerita Singkat Acara</h3>
+                <div class="form-group">
+                    <label id="label-story-title">Cerita Kami</label>
+                    <textarea id="input-story" rows="4" oninput="updateText('prev-story', this.value)">Pertemuan kami berawal dari ketidaksengajaan yang membawa pada ikatan suci ini. Kami bersyukur atas jalan yang telah Tuhan berikan.</textarea>
+                </div>
+            </div>
+
+            <!-- Waktu & Lokasi -->
+            <div class="form-section">
+                <h3><i class="fa-solid fa-calendar-days"></i> Waktu & Lokasi</h3>
+                <div class="form-group">
+                    <label>Nama Rangkaian Acara</label>
+                    <input type="text" id="input-event-title" value="Resepsi Pernikahan" oninput="updateText('prev-event-title', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Tanggal Acara (Untuk Countdown)</label>
+                    <input type="date" id="input-date" onchange="setupCountdown(this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Format Tanggal Tampil</label>
+                    <input type="text" id="input-date-text" value="Minggu, 24 Mei 2026" oninput="updateText('prev-date', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Waktu Acara</label>
+                    <input type="text" id="input-time" value="09:00 WIB - Selesai" oninput="updateText('prev-time', this.value)">
+            <!-- Media & Fitur -->
+            <div class="form-section">
+                <h3><i class="fa-solid fa-image"></i> Media & Fitur</h3>
+                <div class="form-group">
+                    <label>URL Cover Image</label>
+                    <input type="text" id="input-cover-img" value="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80" oninput="updateBackground('cover-page', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>URL Musik (MP3)</label>
+                    <input type="text" id="input-music" value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+                    <small>Gunakan direct link file .mp3</small>
+                </div>
+                
+                <h4 style="color: #ccc; margin: 15px 0 10px; font-size: 0.9rem; border-bottom: 1px solid var(--admin-border); padding-bottom: 5px;">Pengaturan Galeri Foto</h4>
+                
+                <div class="form-group">
+                    <label>Gaya Tampilan Galeri</label>
+                    <select id="input-gallery-style" onchange="changeGalleryStyle(this.value)">
+                        <option value="style-grid">Grid Modern (Bawaan)</option>
+                        <option value="style-slider">Slider / Carousel Horizontal</option>
+                        <option value="style-masonry">Masonry (Ala Pinterest)</option>
+                        <option value="style-classic">Grid Klasik Simetris</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Jumlah Foto Ditampilkan</label>
+                    <select id="input-gallery-count" onchange="changeGalleryCount(this.value)">
+                        <option value="2">2 Foto</option>
+                        <option value="3" selected>3 Foto</option>
+                        <option value="4">4 Foto</option>
+                        <option value="5">5 Foto</option>
+                        <option value="6">6 Foto</option>
+                        <option value="8">8 Foto</option>
+                    </select>
+                </div>
+
+                <div id="gallery-inputs-wrapper">
+                    <div class="form-group" id="group-gallery-1">
+                        <label>Galeri Foto 1 (URL)</label>
+                        <input type="text" id="input-gallery-1" value="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=500&q=80" oninput="updateImage('gallery-img-1', this.value)">
+                    </div>
+                    <div class="form-group" id="group-gallery-2">
+                        <label>Galeri Foto 2 (URL)</label>
+                        <input type="text" id="input-gallery-2" value="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=300&q=80" oninput="updateImage('gallery-img-2', this.value)">
+                    </div>
+                    <div class="form-group" id="group-gallery-3">
+                        <label>Galeri Foto 3 (URL)</label>
+                        <input type="text" id="input-gallery-3" value="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=300&q=80" oninput="updateImage('gallery-img-3', this.value)">
+                    </div>
+                    <div class="form-group" id="group-gallery-4" style="display: none;">
+                        <label>Galeri Foto 4 (URL)</label>
+                        <input type="text" id="input-gallery-4" value="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=300&q=80" oninput="updateImage('gallery-img-4', this.value)">
+                    </div>
+                    <div class="form-group" id="group-gallery-5" style="display: none;">
+                        <label>Galeri Foto 5 (URL)</label>
+                        <input type="text" id="input-gallery-5" value="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=300&q=80" oninput="updateImage('gallery-img-5', this.value)">
+                    </div>
+                    <div class="form-group" id="group-gallery-6" style="display: none;">
+                        <label>Galeri Foto 6 (URL)</label>
+                        <input type="text" id="input-gallery-6" value="https://images.unsplash.com/photo-1532712938730-4e3639e56987?auto=format&fit=crop&w=300&q=80" oninput="updateImage('gallery-img-6', this.value)">
+                    </div>
+                    <div class="form-group" id="group-gallery-7" style="display: none;">
+                        <label>Galeri Foto 7 (URL)</label>
+                        <input type="text" id="input-gallery-7" value="https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=300&q=80" oninput="updateImage('gallery-img-7', this.value)">
+                    </div>
+                    <div class="form-group" id="group-gallery-8" style="display: none;">
+                        <label>Galeri Foto 8 (URL)</label>
+                        <input type="text" id="input-gallery-8" value="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=300&q=80" oninput="updateImage('gallery-img-8', this.value)">
+                    </div>
+                </div>
+                
+                <h4 style="color: #ccc; margin: 15px 0 10px; font-size: 0.9rem; border-bottom: 1px solid var(--admin-border); padding-bottom: 5px;">Lainnya</h4>
+
+                <div class="form-group">
+                    <label>Nomor WhatsApp (Contoh: 62812...)</label>
+                    <input type="text" id="input-wa" value="6281234567890" oninput="updateWhatsApp('btn-wa-link', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Efek Latar</label>
+                    <select id="input-effect" onchange="changeEffect(this.value)">
+                        <option value="none">Tidak Ada</option>
+                        <option value="petals" selected>Kelopak Bunga Jatuh</option>
+                        <option value="snow">Salju / Glitter</option>
+                        <option value="hearts">Hati Cinta (Wedding)</option>
+                        <option value="autumn">Daun Gugur (Rustic)</option>
+                        <option value="balloons">Balon Terbang (Birthday)</option>
+                        <option value="confetti">Confetti Warna-warni (Party)</option>
+                        <option value="fireflies">Kunang-kunang (Luxury)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3><i class="fa-solid fa-gift"></i> Digital Gift / Amplop</h3>
+                <div class="form-group">
+                    <label>Judul Bagian Kado</label>
+                    <input type="text" id="input-gift-title" value="Wedding Gift" oninput="updateText('prev-gift-title', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi Kado</label>
+                    <textarea id="input-gift-desc" rows="3" oninput="updateText('prev-gift-desc', this.value)">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Dan jika memberi adalah ungkapan tanda kasih Anda, Anda dapat memberi kado secara cashless.</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Nama Bank/E-Wallet</label>
+                    <input type="text" id="input-bank" value="BCA" oninput="updateText('prev-bank', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Nomor Rekening</label>
+                    <input type="text" id="input-rek" value="1234567890" oninput="updateText('prev-rek', this.value)">
+                </div>
+                <div class="form-group">
+                    <label>Atas Nama</label>
+                    <input type="text" id="input-rek-name" value="Romeo Montague" oninput="updateText('prev-rek-name', this.value)">
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-footer">
+            <button class="btn-primary" onclick="resetPreview()"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+            <button class="btn-primary" style="background: #00b894;" onclick="exportHTML()"><i class="fa-solid fa-download"></i> Export</button>
+        </div>
+    </aside>
+
+    <!-- TOMBOL TOGGLE ADMIN DI MOBILE -->
+    <div id="mobile-admin-toggle" onclick="toggleAdmin()">
+        <i class="fa-solid fa-pen"></i>
+    </div>
+
+    <!-- PREVIEW AREA (KANAN) -->
+    <main id="preview-area">
+        <div id="phone-mockup">
+            
+            <!-- Elemen Audio tersembunyi -->
+            <audio id="bg-music" loop>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            </audio>
+
+            <!-- Floating Audio Control -->
+            <div id="audio-control" class="paused" style="display: none;" onclick="toggleAudio()">
+                <i class="fa-solid fa-music"></i>
+            </div>
+
+            <!-- Fitur Baru: Dark Mode Toggle -->
+            <div id="darkmode-toggle" onclick="toggleDarkMode()">
+                <i class="fa-solid fa-moon"></i>
+            </div>
+
+            <!-- Fitur Baru: Bottom Navigation -->
+            <nav id="bottom-nav">
+                <div class="nav-item active" onclick="scrollToSection('sec-hero')"><i class="fa-solid fa-house"></i></div>
+                <div class="nav-item" onclick="scrollToSection('sec-profile')"><i class="fa-solid fa-user-group"></i></div>
+                <div class="nav-item" onclick="scrollToSection('sec-event')"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="nav-item" onclick="scrollToSection('sec-gallery')"><i class="fa-solid fa-images"></i></div>
+                <div class="nav-item" onclick="scrollToSection('sec-rsvp')"><i class="fa-solid fa-comment-dots"></i></div>
+            </nav>
+
+            <!-- Kontainer Utama Undangan -->
+            <div id="invitation-frame">
+                
+                <!-- Container untuk efek falling (salju/bunga) -->
+                <div id="falling-container"></div>
+
+                <!-- COVER PAGE -->
+                <div id="cover-page" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80');">
+                    <div class="cover-title prev-title">The Wedding Of</div>
+                    
+                    <!-- Cover untuk Pernikahan -->
+                    <div class="cover-names" id="cover-names-wedding">
+                        <span class="prev-groom">Romeo</span> <br>&<br> <span class="prev-bride">Juliet</span>
+                    </div>
+                    
+                    <!-- Cover untuk Acara Tunggal -->
+                    <div class="cover-names" id="cover-names-single" style="display: none;">
+                        <span class="prev-single-name">Budi Santoso</span>
+                    </div>
+                    
+                    <div class="guest-box">
+                        <p>Kepada Yth.</p>
+                        <p>Bapak/Ibu/Saudara/i</p>
+                        <h4 id="guest-name-display">Tamu Spesial</h4>
+                    </div>
+
+                    <button class="btn-open" onclick="openInvitation()">
+                        <i class="fa-solid fa-envelope-open-text"></i> Buka Undangan
+                    </button>
+                </div>
+
+                <!-- ISI UNDANGAN -->
+                
+                <!-- Section 1: Hero -->
+                <section class="inv-section hero-section" id="sec-hero">
+                    <div class="hero-content">
+                        <div class="section-title">Save The Date</div>
+                        <p class="prev-intro">Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.</p>
+                        
+                        <!-- Nama Utama untuk Pernikahan -->
+                        <div class="main-names" id="main-names-wedding">
+                            <span class="prev-groom">Romeo</span>
+                            &
+                            <span class="prev-bride">Juliet</span>
+                        </div>
+
+                        <!-- Nama Utama untuk Acara Tunggal -->
+                        <div class="main-names" id="main-names-single" style="display: none;">
+                            <span class="prev-single-name">Budi Santoso</span>
+                        </div>
+                        
+                        <p class="prev-date" style="font-weight: 600; font-size: 1.2rem; margin-top: 20px;">Minggu, 24 Mei 2026</p>
+                        
+                        <div class="countdown-wrapper">
+                            <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-label">Hari</span></div>
+                            <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">Jam</span></div>
+                            <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">Menit</span></div>
+                            <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">Detik</span></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Profile -->
+                <section class="inv-section" style="background: rgba(0,0,0,0.02);" id="sec-profile">
+                    <div class="section-title" id="profile-section-title">Mempelai</div>
+                    
+                    <!-- Profil untuk Pernikahan -->
+                    <div class="profile-wrapper" id="profile-wedding">
+                        <div class="profile-card">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80" id="img-groom" alt="Groom" class="profile-img">
+                            <div class="profile-name prev-groom">Romeo</div>
+                            <p class="profile-parents prev-groom-parents">Putra dari Bpk. Montague & Ibu Lady Montague</p>
+                        </div>
+                        
+                        <div class="section-title" style="font-size: 2rem;">&</div>
+
+                        <div class="profile-card">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" id="img-bride" alt="Bride" class="profile-img">
+                            <div class="profile-name prev-bride">Juliet</div>
+                            <p class="profile-parents prev-bride-parents">Putri dari Bpk. Capulet & Ibu Lady Capulet</p>
+                        </div>
+                    </div>
+
+                    <!-- Profil untuk Acara Tunggal -->
+                    <div class="profile-wrapper" id="profile-single" style="display: none;">
+                        <div class="profile-card">
+                            <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=300&q=80" id="img-single" alt="Profile" class="profile-img">
+                            <div class="profile-name prev-single-name">Budi Santoso</div>
+                            <p class="profile-parents prev-single-parents">Putra dari Bpk. Santoso & Ibu Ratna</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section Cerita Kami -->
+                <section class="inv-section" id="sec-story">
+                    <div class="section-title" id="preview-story-title">Cerita Kami</div>
+                    <p class="prev-story" style="font-size: 0.95rem; line-height: 1.6; padding: 0 10px;">Pertemuan kami berawal dari ketidaksengajaan yang membawa pada ikatan suci ini. Kami bersyukur atas jalan yang telah Tuhan berikan.</p>
+                </section>
+
+                <!-- Section 3: Event Detail -->
+                <section class="inv-section" id="sec-event">
+                    <div class="section-title">Acara</div>
+                    
+                    <div class="event-card">
+                        <div class="event-title prev-event-title">Resepsi Pernikahan</div>
+                        <div class="event-detail">
+                            <i class="fa-regular fa-calendar"></i> <span class="prev-date">Minggu, 24 Mei 2026</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fa-regular fa-clock"></i> <span class="prev-time">09:00 WIB - Selesai</span>
+                        </div>
+                        <div class="event-detail">
+                            <i class="fa-solid fa-location-dot"></i> <strong class="prev-venue">Grand Ballroom Hotel Bintang</strong><br>
+                            <span class="prev-address" style="font-size: 0.85rem; color: #666;">Jl. Jend. Sudirman No. 123, Jakarta Selatan</span>
+                        </div>
+                        
+                        <a href="https://maps.google.com" id="btn-maps-link" target="_blank" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: var(--inv-accent); color: white; text-decoration: none; border-radius: 5px; font-weight: 500;">
+                            <i class="fa-solid fa-map-location-dot"></i> Buka Google Maps
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Section 4: Gallery -->
+                <section class="inv-section" style="background: rgba(0,0,0,0.02);" id="sec-gallery">
+                    <div class="section-title">Galeri</div>
+                    
+                    <!-- Fitur Baru: Container Gallery dengan Class Dinamis -->
+                    <div id="gallery-container" class="gallery-wrapper style-grid">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=500&q=80" id="gallery-img-1" class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=300&q=80" id="gallery-img-2" class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=300&q=80" id="gallery-img-3" class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=300&q=80" id="gallery-img-4" class="gallery-item" style="display: none;">
+                        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=300&q=80" id="gallery-img-5" class="gallery-item" style="display: none;">
+                        <img src="https://images.unsplash.com/photo-1532712938730-4e3639e56987?auto=format&fit=crop&w=300&q=80" id="gallery-img-6" class="gallery-item" style="display: none;">
+                        <img src="https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=300&q=80" id="gallery-img-7" class="gallery-item" style="display: none;">
+                        <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=300&q=80" id="gallery-img-8" class="gallery-item" style="display: none;">
+                    </div>
+                </section>
+
+                <!-- Section 5: Digital Gift -->
+                <section class="inv-section" id="sec-gift">
+                    <div class="section-title prev-gift-title">Wedding Gift</div>
+                    <p class="prev-gift-desc">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Dan jika memberi adalah ungkapan tanda kasih Anda, Anda dapat memberi kado secara cashless.</p>
+                    
+                    <div class="gift-box">
+                        <div class="bank-name prev-bank">BCA</div>
+                        <div class="bank-rek" id="rek-number">1234567890</div>
+                        <div style="font-size: 0.9rem; margin-bottom: 15px;">a.n <span class="prev-rek-name">Romeo Montague</span></div>
+                        <button class="btn-copy" onclick="copyRekening()"><i class="fa-regular fa-copy"></i> Salin Nomor Rekening</button>
+                    </div>
+                </section>
+
+                <!-- Section 6: RSVP & Guestbook -->
+                <section class="inv-section" style="background: var(--inv-accent); color: white;" id="sec-rsvp">
+                    <div class="section-title" style="color: white;">RSVP & Ucapan</div>
+                    
+                    <div class="rsvp-form">
+                        <div class="form-group">
+                            <label>Nama Anda</label>
+                            <input type="text" id="rsvp-name" placeholder="Masukkan nama">
+                        </div>
+                        <div class="form-group">
+                            <label>Kehadiran</label>
+                            <select id="rsvp-status">
+                                <option value="Hadir">Hadir</option>
+                                <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ucapan & Doa</label>
+                            <textarea id="rsvp-msg" rows="3" placeholder="Tuliskan doa untuk mempelai..."></textarea>
+                        </div>
+                        <button class="btn-submit" onclick="submitRSVP()">Kirim Ucapan</button>
+                    </div>
+
+                    <div class="guestbook-list" id="guestbook-container">
+                        <!-- Guest messages will be populated here via JS -->
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <a href="https://wa.me/6281234567890" id="btn-wa-link" target="_blank" style="display: block; width: 100%; padding: 12px; background: #25D366; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(37,211,102,0.3);">
+                            <i class="fa-brands fa-whatsapp"></i> Hubungi via WhatsApp
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer style="padding: 30px 30px 100px 30px; text-align: center; background: #111; color: #fff;">
+                    <div class="cover-title prev-title" style="color: white; font-size: 1rem;">The Wedding Of</div>
+                    
+                    <div style="font-family: var(--inv-font-cursive); font-size: 2rem; margin: 10px 0;" id="footer-names-wedding">
+                        <span class="prev-groom">Romeo</span> & <span class="prev-bride">Juliet</span>
+                    </div>
+                    <div style="font-family: var(--inv-font-cursive); font-size: 2rem; margin: 10px 0; display: none;" id="footer-names-single">
+                        <span class="prev-single-name">Budi Santoso</span>
+                    </div>
+
+                    <p style="font-size: 0.8rem; color: #888;">Created with InviGen &copy; 2026</p>
+                </footer>
+
+            </div> <!-- End Invitation Frame -->
+        </div> <!-- End Phone Mockup -->
+    </main>
+</div>
+
+<script>
+    // --- 1. INISIALISASI & DATA BINDING ---
+    
+    // Fungsi untuk mengubah text realtime
+    function updateText(className, value) {
+        const elements = document.querySelectorAll('.' + className);
+        elements.forEach(el => {
+            el.innerText = value || '...';
+        });
+    }
+
+    // Fungsi untuk mengubah background image realtime
+    function updateBackground(id, url) {
+        document.getElementById(id).style.backgroundImage = `url('${url}')`;
+    }
+
+    // Fungsi mengubah variabel CSS realtime (Custom Color)
+    function updateCSSVar(varName, value) {
+        document.documentElement.style.setProperty(varName, value);
+    }
+
+    // Fungsi untuk mengubah link href (Maps)
+    function updateLink(id, url) {
+        const el = document.getElementById(id);
+        if (el) el.href = url;
+    }
+
+    // Fungsi untuk mengubah source gambar (Galeri)
+    function updateImage(id, url) {
+        const el = document.getElementById(id);
+        if (el) el.src = url;
+    }
+
+    // Fungsi untuk mengubah link WhatsApp
+    function updateWhatsApp(id, number) {
+        const el = document.getElementById(id);
+        if (el) {
+            const cleanNumber = number.replace(/\D/g, ''); // Hapus karakter non-angka
+            el.href = `https://wa.me/${cleanNumber}`;
+        }
+    }
+
+    // Fungsi untuk mengubah Gaya Galeri
+    function changeGalleryStyle(styleClass) {
+        const gallery = document.getElementById('gallery-container');
+        if(gallery) {
+            gallery.className = 'gallery-wrapper ' + styleClass;
+        }
+    }
+
+    // Fungsi untuk mengubah Jumlah Foto Galeri yang ditampilkan
+    function changeGalleryCount(count) {
+        const totalMax = 8;
+        for(let i = 1; i <= totalMax; i++) {
+            const groupInput = document.getElementById('group-gallery-' + i);
+            const imgPreview = document.getElementById('gallery-img-' + i);
+            
+            if(i <= count) {
+                // Munculkan
+                if(groupInput) groupInput.style.display = 'block';
+                if(imgPreview) imgPreview.style.display = 'block';
+            } else {
+                // Sembunyikan
+                if(groupInput) groupInput.style.display = 'none';
+                if(imgPreview) imgPreview.style.display = 'none';
+            }
+        }
+    }
+
+    // --- 2. SISTEM TEMA DINAMIS (19 TEMPLATE) ---
+    const themes = {
+        // Pernikahan
+        'elegant': { bg: '#fdfbf7', text: '#333333', accent: '#c5a880', fontH: "'Playfair Display', serif", fontB: "'Poppins', sans-serif", btnR: '30px' },
+        'rustic': { bg: '#f4f1ea', text: '#4a4e4d', accent: '#8da399', fontH: "'Lora', serif", fontB: "'Lora', serif", btnR: '8px' },
+        'minimalist': { bg: '#ffffff', text: '#222222', accent: '#333333', fontH: "'Quicksand', sans-serif", fontB: "'Quicksand', sans-serif", btnR: '0px' },
+        'islami': { bg: '#f8fae6', text: '#2b422a', accent: '#b59a45', fontH: "'Amiri', serif", fontB: "'Poppins', sans-serif", btnR: '30px' },
+        'floral': { bg: '#fff0f5', text: '#5c3a4d', accent: '#d67e9b', fontH: "'Sacramento', cursive", fontB: "'Quicksand', sans-serif", btnR: '15px 0 15px 0' },
+        'luxury': { bg: '#111111', text: '#e0e0e0', accent: '#d4af37', fontH: "'Cinzel', serif", fontB: "'Poppins', sans-serif", btnR: '0px' },
+        'korean': { bg: '#fdf5f6', text: '#594a4e', accent: '#a2b9c6', fontH: "'Playfair Display', serif", fontB: "'Quicksand', sans-serif", btnR: '15px' },
+        'traditional': { bg: '#faf0e6', text: '#3e2723', accent: '#8d6e63', fontH: "'Lora', serif", fontB: "'Poppins', sans-serif", btnR: '8px' },
+        'vintage': { bg: '#f5deb3', text: '#4e342e', accent: '#8b4513', fontH: "'Courier Prime', monospace", fontB: "'Courier Prime', monospace", btnR: '0px' },
+        'tropical': { bg: '#f0fff0', text: '#1b4d3e', accent: '#ff7f50', fontH: "'Playfair Display', serif", fontB: "'Quicksand', sans-serif", btnR: '30px' },
+        // Khitanan
+        'ceria': { bg: '#fffde7', text: '#37474f', accent: '#ff5252', fontH: "'Fredoka', sans-serif", fontB: "'Fredoka', sans-serif", btnR: '25px' },
+        'kartun-islami': { bg: '#e0f7fa', text: '#006064', accent: '#fbc02d', fontH: "'Fredoka', sans-serif", fontB: "'Quicksand', sans-serif", btnR: '30px' },
+        'minimal-modern': { bg: '#eceff1', text: '#263238', accent: '#00b0ff', fontH: "'Poppins', sans-serif", fontB: "'Poppins', sans-serif", btnR: '5px' },
+        'pastel': { bg: '#fce4ec', text: '#880e4f', accent: '#ab47bc', fontH: "'Quicksand', sans-serif", fontB: "'Quicksand', sans-serif", btnR: '30px' },
+        // Acara Umum
+        'formal': { bg: '#ffffff', text: '#000000', accent: '#1a237e', fontH: "'Cinzel', serif", fontB: "'Lora', serif", btnR: '0px' },
+        'seminar': { bg: '#f5f5f5', text: '#212121', accent: '#0277bd', fontH: "'Poppins', sans-serif", fontB: "'Poppins', sans-serif", btnR: '5px' },
+        'birthday': { bg: '#fff3e0', text: '#e65100', accent: '#00e676', fontH: "'Fredoka', sans-serif", fontB: "'Quicksand', sans-serif", btnR: '25px' },
+        'graduation': { bg: '#fafafa', text: '#212121', accent: '#ffb300', fontH: "'Lora', serif", fontB: "'Poppins', sans-serif", btnR: '8px' },
+        'gathering': { bg: '#fff8e1', text: '#3e2723', accent: '#ff8f00', fontH: "'Quicksand', sans-serif", fontB: "'Quicksand', sans-serif", btnR: '15px' }
+    };
+
+    function applyTheme(themeName) {
+        // Sinkronisasi nilai dropdown jika dipanggil dari fungsi lain
+        document.getElementById('theme-selector').value = themeName;
+
+        // Reset dan Terapkan Kelas CSS ke Frame untuk mengubah Layout/Ornamen
+        const frame = document.getElementById('invitation-frame');
+        frame.className = ''; 
+        frame.classList.add('theme-' + themeName);
+
+        // Terapkan Variabel Warna, Font, dan Radius Tombol
+        const t = themes[themeName];
+        updateCSSVar('--inv-bg', t.bg);
+        updateCSSVar('--inv-text-main', t.text);
+        updateCSSVar('--inv-accent', t.accent);
+        updateCSSVar('--inv-font-heading', t.fontH);
+        updateCSSVar('--inv-font-body', t.fontB);
+        updateCSSVar('--btn-radius', t.btnR);
+
+        // Update UI Panel Admin agar sinkron (Colors & Select Dropdowns)
+        document.getElementById('color-bg').value = t.bg;
+        document.getElementById('color-text').value = t.text;
+        document.getElementById('color-accent').value = t.accent;
+        
+        // Pengecekan aman (jika font/shape ada dalam option maka akan diset)
+        const fontHSelect = document.getElementById('input-font-heading');
+        const fontBSelect = document.getElementById('input-font-body');
+        const btnShapeSelect = document.getElementById('input-btn-shape');
+        
+        if (Array.from(fontHSelect.options).some(opt => opt.value === t.fontH)) fontHSelect.value = t.fontH;
+        if (Array.from(fontBSelect.options).some(opt => opt.value === t.fontB)) fontBSelect.value = t.fontB;
+        if (Array.from(btnShapeSelect.options).some(opt => opt.value === t.btnR)) btnShapeSelect.value = t.btnR;
+    }
+
+    // --- LOGIKA JENIS ACARA (DINAMIS) ---
+    function changeEventType(type) {
+        // Cek apakah acara ini butuh dua profil (pasangan) atau satu profil (single)
+        const isSingle = !['pernikahan', 'engagement'].includes(type);
+        
+        // 1. Toggle Tampilan Form di Admin
+        document.getElementById('form-group-wedding').style.display = isSingle ? 'none' : 'block';
+        document.getElementById('form-group-single').style.display = isSingle ? 'block' : 'none';
+        
+        // 2. Toggle Tampilan di Preview
+        document.getElementById('cover-names-wedding').style.display = isSingle ? 'none' : 'block';
+        document.getElementById('cover-names-single').style.display = isSingle ? 'block' : 'none';
+        
+        document.getElementById('main-names-wedding').style.display = isSingle ? 'none' : 'block';
+        document.getElementById('main-names-single').style.display = isSingle ? 'block' : 'none';
+        
+        document.getElementById('profile-wedding').style.display = isSingle ? 'none' : 'flex';
+        document.getElementById('profile-single').style.display = isSingle ? 'flex' : 'none';
+        
+        document.getElementById('footer-names-wedding').style.display = isSingle ? 'none' : 'block';
+        document.getElementById('footer-names-single').style.display = isSingle ? 'block' : 'none';
+
+        // 3. Konfigurasi Teks Default Berdasarkan Kategori Acara
+        let cfg = {
+            title: "The Wedding Of", name: "Ahmad Fatih", parents: "Putra dari Bpk. Budi & Ibu Ani", profileTitle: "Mempelai",
+            labelName: "Nama Anak / Tokoh Utama", labelParents: "Nama Orang Tua / Keterangan", labelPhoto: "URL Foto Utama",
+            intro: "Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.",
+            eventTitle: "Resepsi Pernikahan", giftTitle: "Wedding Gift",
+            giftDesc: "Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Dan jika memberi adalah ungkapan tanda kasih Anda, Anda dapat memberi kado secara cashless.",
+            rsvpPlaceholder: "Tuliskan doa untuk mempelai...",
+            storyLabel: "Cerita Kami",
+            storyText: "Pertemuan kami berawal dari ketidaksengajaan yang membawa pada ikatan suci ini. Kami bersyukur atas jalan yang telah Tuhan berikan."
+        };
+
+        if(type === 'khitanan') {
+            cfg.title = "Tasyakuran Khitanan"; cfg.profileTitle = "Anak Kami";
+            cfg.labelName = "Nama Anak"; cfg.labelParents = "Nama Orang Tua";
+            cfg.intro = "Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara Tasyakuran Khitanan putra kami.";
+            cfg.eventTitle = "Acara Tasyakuran"; cfg.giftTitle = "Tanda Kasih";
+            cfg.giftDesc = "Kehadiran dan doa restu Bapak/Ibu/Saudara/i merupakan anugerah terindah bagi kami.";
+            cfg.rsvpPlaceholder = "Tuliskan doa untuk anak kami...";
+            cfg.storyLabel = "Profil Anak";
+            cfg.storyText = "Anak kami tumbuh menjadi pribadi yang ceria dan pemberani. Semoga dengan khitan ini, ia menjadi anak yang sholeh, berbakti kepada orang tua, dan berguna bagi agama.";
+        } else if(type === 'ulang_tahun') { 
+            cfg.title = "Happy Birthday"; cfg.name = "Sarah Aurelia"; cfg.parents = "Yang Ke-17 Tahun"; cfg.profileTitle = "Birthday Girl/Boy";
+            cfg.labelName = "Nama yang Ulang Tahun"; cfg.labelParents = "Usia / Keterangan";
+            cfg.intro = "Halo semuanya! Aku sangat bahagia jika teman-teman dan keluarga bisa hadir untuk merayakan momen spesial hari ulang tahunku.";
+            cfg.eventTitle = "Pesta Ulang Tahun"; cfg.giftTitle = "Birthday Gift";
+            cfg.giftDesc = "Kehadiran kalian adalah kado terbaik. Namun jika ingin memberikan kado secara digital, dapat dikirimkan melalui:";
+            cfg.rsvpPlaceholder = "Tuliskan ucapan selamat ulang tahun...";
+            cfg.storyLabel = "Tentang Aku";
+            cfg.storyText = "Di hari yang spesial ini, aku ingin berbagi kebahagiaan dengan kalian semua yang telah menemaniku tumbuh dan belajar banyak hal hebat.";
+        } else if(type === 'aqiqah') { 
+            cfg.title = "Tasyakuran Aqiqah"; cfg.name = "Baby Muhammad"; cfg.parents = "Putra pertama dari Bpk. Budi & Ibu Ani"; cfg.profileTitle = "Buah Hati Kami";
+            cfg.labelName = "Nama Bayi"; cfg.labelParents = "Nama Orang Tua";
+            cfg.intro = "Syukur alhamdulillah atas kelahiran putra/putri kami. Kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara Tasyakuran Aqiqah.";
+            cfg.eventTitle = "Acara Aqiqah"; cfg.giftTitle = "Tanda Kasih";
+            cfg.giftDesc = "Kehadiran dan doa dari Bapak/Ibu/Saudara/i adalah hadiah paling berharga untuk buah hati kami.";
+            cfg.rsvpPlaceholder = "Tuliskan doa untuk baby...";
+            cfg.storyLabel = "Doa & Harapan";
+            cfg.storyText = "Kehadirannya membawa secercah cahaya dan kebahagiaan baru dalam keluarga kami. Semoga kelak ia tumbuh menjadi anak yang sehat, cerdas, dan menyejukkan hati.";
+        } else if(type === 'wisuda') { 
+            cfg.title = "Happy Graduation"; cfg.name = "Andi Saputra, S.Kom"; cfg.parents = "Universitas Bintang"; cfg.profileTitle = "Wisudawan";
+            cfg.labelName = "Nama Lulusan"; cfg.labelParents = "Nama Universitas / Jurusan";
+            cfg.intro = "Puji syukur atas kelulusan yang telah diraih. Saya sangat bersyukur dan mengundang keluarga serta sahabat untuk merayakan momen bahagia ini.";
+            cfg.eventTitle = "Perayaan Kelulusan"; cfg.giftTitle = "Graduation Gift";
+            cfg.giftDesc = "Kehadiran dan semangat dari Anda sangat berarti bagi perjalanan baru saya.";
+            cfg.rsvpPlaceholder = "Tuliskan ucapan selamat...";
+            cfg.storyLabel = "Perjalananku";
+            cfg.storyText = "Perjalanan akademis ini penuh dengan tantangan, tawa, dan air mata. Terima kasih kepada semua pihak yang telah memberikan dukungan tiada henti hingga aku berhasil meraih gelar ini.";
+        } else if(type === 'engagement') { 
+            cfg.title = "The Engagement Of"; cfg.profileTitle = "Pasangan";
+            cfg.intro = "Dengan memohon ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pertunangan kami.";
+            cfg.eventTitle = "Acara Pertunangan"; cfg.giftTitle = "Engagement Gift";
+            cfg.rsvpPlaceholder = "Tuliskan doa untuk kami...";
+            cfg.storyLabel = "Cerita Kami";
+            cfg.storyText = "Ini adalah langkah awal kami menuju ikatan suci. Kami sangat bersyukur telah dipertemukan dan siap mengarungi babak baru kehidupan bersama-sama.";
+        } else if(type === 'tasyakuran') { 
+            cfg.title = "Tasyakuran"; cfg.name = "Keluarga Bpk. Budi"; cfg.parents = "Sebagai wujud rasa syukur kami"; cfg.profileTitle = "Penyelenggara";
+            cfg.labelName = "Nama Penyelenggara"; cfg.labelParents = "Keterangan Acara";
+            cfg.intro = "Dengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara Tasyakuran kami.";
+            cfg.eventTitle = "Acara Tasyakuran"; cfg.giftTitle = "Tanda Kasih";
+            cfg.giftDesc = "Kehadiran dan doa baik Bapak/Ibu/Saudara/i sangat berarti bagi kami.";
+            cfg.rsvpPlaceholder = "Tuliskan doa atau harapan...";
+            cfg.storyLabel = "Ungkapan Syukur";
+            cfg.storyText = "Segala puji bagi Tuhan atas berbagai nikmat dan karunia-Nya. Momen ini adalah wujud rasa syukur terdalam kami atas segala kebaikan yang telah diberikan kepada keluarga kami.";
+        } else if(type === 'seminar') { 
+            cfg.title = "Seminar Nasional"; cfg.name = "Tech Future 2026"; cfg.parents = "Oleh: Dr. Budi Santoso"; cfg.profileTitle = "Pembicara Utama";
+            cfg.labelName = "Nama Seminar"; cfg.labelParents = "Pembicara Utama"; cfg.labelPhoto = "URL Poster Seminar";
+            cfg.intro = "Hadirilah seminar spesial ini untuk menambah wawasan, pengalaman, dan membangun jaringan baru Anda bersama para profesional.";
+            cfg.eventTitle = "Pelaksanaan Seminar"; cfg.giftTitle = "Donasi / Pendaftaran";
+            cfg.giftDesc = "Bagi yang ingin memberikan dukungan operasional acara atau membayar tiket registrasi via transfer, silakan melalui saluran berikut:";
+            cfg.rsvpPlaceholder = "Ketik 'Hadir' atau ajukan pertanyaan...";
+            cfg.storyLabel = "Latar Belakang Acara";
+            cfg.storyText = "Seminar ini diselenggarakan untuk membedah tantangan masa depan dan memberikan ruang diskusi interaktif bagi para praktisi untuk saling bertukar gagasan dan inovasi.";
+        } else if(type === 'lainnya') { 
+            cfg.title = "Undangan Acara"; cfg.name = "Nama Acara / Orang"; cfg.parents = "Keterangan Singkat"; cfg.profileTitle = "Informasi";
+            cfg.labelName = "Nama Acara / Orang"; cfg.labelParents = "Keterangan Singkat";
+            cfg.intro = "Kami sangat mengharapkan kehadiran Bapak/Ibu/Saudara/i pada acara yang akan kami selenggarakan.";
+            cfg.eventTitle = "Detail Acara"; cfg.giftTitle = "Tanda Kasih";
+            cfg.giftDesc = "Kehadiran Anda merupakan kehormatan dan kebahagiaan bagi kami.";
+            cfg.rsvpPlaceholder = "Tuliskan pesan Anda...";
+            cfg.storyLabel = "Tentang Acara";
+            cfg.storyText = "Acara ini diselenggarakan sebagai momen istimewa untuk berkumpul, bersilaturahmi, dan merayakan kebersamaan bersama orang-orang terkasih dalam suasana yang hangat.";
+        }
+        
+        // Update Label Form di Admin
+        document.getElementById('label-single-name').innerText = cfg.labelName;
+        document.getElementById('label-single-parents').innerText = cfg.labelParents;
+        document.getElementById('label-single-photo').innerText = cfg.labelPhoto;
+        document.getElementById('label-story-title').innerText = cfg.storyLabel;
+
+        // Update Nilai Input di Admin
+        document.getElementById('input-title').value = cfg.title;
+        document.getElementById('input-intro').value = cfg.intro;
+        document.getElementById('input-event-title').value = cfg.eventTitle;
+        document.getElementById('input-gift-title').value = cfg.giftTitle;
+        document.getElementById('input-gift-desc').value = cfg.giftDesc;
+        document.getElementById('input-story').value = cfg.storyText;
+        document.getElementById('rsvp-msg').placeholder = cfg.rsvpPlaceholder;
+        
+        if(isSingle) {
+            document.getElementById('input-single-name').value = cfg.name;
+            document.getElementById('input-single-parents').value = cfg.parents;
+            updateText('prev-single-name', cfg.name);
+            updateText('prev-single-parents', cfg.parents);
+        }
+
+        // Terapkan perubahan ke area Preview
+        updateText('prev-title', cfg.title);
+        updateText('prev-intro', cfg.intro);
+        updateText('prev-event-title', cfg.eventTitle);
+        updateText('prev-gift-title', cfg.giftTitle);
+        updateText('prev-gift-desc', cfg.giftDesc);
+        updateText('prev-story', cfg.storyText);
+        document.getElementById('profile-section-title').innerText = cfg.profileTitle;
+        document.getElementById('preview-story-title').innerText = cfg.storyLabel;
+    }
+
+    // --- 3. URL PARAMETER (Nama Tamu) ---
+    function checkGuestName() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName = urlParams.get('to');
+        if (guestName) {
+            // Replace + or %20 with space
+            const cleanName = decodeURIComponent(guestName).replace(/\+/g, ' ');
+            document.getElementById('guest-name-display').innerText = cleanName;
+        }
+    }
+
+    // --- 4. COUNTDOWN TIMER ---
+    let countdownInterval;
+    function setupCountdown(dateString) {
+        clearInterval(countdownInterval);
+        if (!dateString) return;
+
+        const targetDate = new Date(dateString).getTime();
+
+        countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('cd-days').innerText = "00";
+                document.getElementById('cd-hours').innerText = "00";
+                document.getElementById('cd-mins').innerText = "00";
+                document.getElementById('cd-secs').innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('cd-days').innerText = days < 10 ? '0'+days : days;
+            document.getElementById('cd-hours').innerText = hours < 10 ? '0'+hours : hours;
+            document.getElementById('cd-mins').innerText = minutes < 10 ? '0'+minutes : minutes;
+            document.getElementById('cd-secs').innerText = seconds < 10 ? '0'+seconds : seconds;
+        }, 1000);
+    }
+
+    // Inisialisasi countdown default (1 bulan dari sekarang)
+    const defaultDate = new Date();
+    defaultDate.setMonth(defaultDate.getMonth() + 1);
+    const dateFormatted = defaultDate.toISOString().split('T')[0];
+    document.getElementById('input-date').value = dateFormatted;
+    setupCountdown(dateFormatted);
+
+    // --- 5. AUDIO & COVER LOGIC ---
+    const bgMusic = document.getElementById('bg-music');
+    const audioControl = document.getElementById('audio-control');
+    let isPlaying = false;
+
+    function openInvitation() {
+        // Animasi buka cover
+        document.getElementById('cover-page').classList.add('opened');
+        
+        document.getElementById('bottom-nav').classList.add('visible');
+        document.getElementById('darkmode-toggle').classList.add('visible');
+        
+        // Sembunyikan tombol melayang (navigasi & musik) jika admin di mode mobile sedang terbuka saat membuka cover
+        const panel = document.getElementById('admin-panel');
+        if (window.innerWidth <= 900 && panel.classList.contains('open')) {
+            document.getElementById('bottom-nav').style.display = 'none';
+            audioControl.style.display = 'none';
+        } else {
+            audioControl.style.display = 'flex';
+        }
+        
+        // Update source musik dari input jika diubah
+        const musicUrl = document.getElementById('input-music').value;
+        if(bgMusic.src !== musicUrl) {
+            bgMusic.src = musicUrl;
+        }
+
+        // Mulai musik
+        playAudio();
+    }
+
+    function playAudio() {
+        bgMusic.play().then(() => {
+            isPlaying = true;
+            audioControl.classList.remove('paused');
+            audioControl.innerHTML = '<i class="fa-solid fa-music"></i>';
+        }).catch(err => console.log("Audio autoplay diblokir browser. User harus interaksi."));
+    }
+
+    function toggleAudio() {
+        if (isPlaying) {
+            bgMusic.pause();
+            isPlaying = false;
+            audioControl.classList.add('paused');
+            audioControl.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+        } else {
+            playAudio();
+        }
+    }
+
+    function resetPreview() {
+        document.getElementById('cover-page').classList.remove('opened');
+        audioControl.style.display = 'none';
+        
+        // Sembunyikan navigasi & toggle saat cover tertutup
+        const bottomNav = document.getElementById('bottom-nav');
+        bottomNav.classList.remove('visible');
+        bottomNav.style.display = ''; // Reset inline style
+        document.getElementById('darkmode-toggle').classList.remove('visible');
+
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+        isPlaying = false;
+        
+        // Scroll kembali ke atas
+        document.getElementById('invitation-frame').scrollTop = 0;
+    }
+
+    // --- 5.1 FUNGSI DARK MODE & SCROLL NAV ---
+    function toggleDarkMode() {
+        const mockup = document.getElementById('phone-mockup');
+        const icon = document.querySelector('#darkmode-toggle i');
+        
+        mockup.classList.toggle('dark-mode');
+        
+        if(mockup.classList.contains('dark-mode')) {
+            icon.className = 'fa-solid fa-sun';
+        } else {
+            icon.className = 'fa-solid fa-moon';
+        }
+    }
+
+    function scrollToSection(sectionId) {
+        const frame = document.getElementById('invitation-frame');
+        const section = document.getElementById(sectionId);
+        if(section && frame) {
+            frame.scrollTo({
+                top: section.offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    // Scroll Spy untuk mengaktifkan icon Navigasi secara otomatis
+    document.getElementById('invitation-frame').addEventListener('scroll', function() {
+        const sections = ['sec-hero', 'sec-profile', 'sec-event', 'sec-gallery', 'sec-rsvp'];
+        let currentSection = 'sec-hero';
+        
+        for(let id of sections) {
+            const section = document.getElementById(id);
+            if(section) {
+                // Margin 150px untuk memicu aktif lebih awal
+                if(this.scrollTop >= section.offsetTop - 150) {
+                    currentSection = id;
+                }
+            }
+        }
+        
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if(item.getAttribute('onclick').includes(currentSection)) {
+                item.classList.add('active');
+            }
+        });
+    });
+
+    // --- 6. SALIN REKENING ---
+    function copyRekening() {
+        const rek = document.getElementById('rek-number').innerText;
+        // Fallback untuk iframe/browser lama
+        const textArea = document.createElement("textarea");
+        textArea.value = rek;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            alert("Nomor rekening disalin: " + rek);
+        } catch (err) {
+            console.error('Oops, unable to copy');
+        }
+        document.body.removeChild(textArea);
+    }
+    // --- 8. ANIMASI EFEK JATUH (PETALS/SNOW/DLL) ---
+    let effectInterval;
+    
+    function changeEffect(type) {
+        const container = document.getElementById('falling-container');
+        container.innerHTML = '';
+        clearInterval(effectInterval);
+
+        if (type === 'none') return;
+
+        let maxItems = 20;
+        let intervalMs = 800;
+
+        effectInterval = setInterval(() => {
+            if(container.childElementCount > maxItems) {
+                container.removeChild(container.firstChild);
+            }
+
+            const el = document.createElement('div');
+            el.className = 'falling-item';
+            
+            // Random properties
+            let size = Math.random() * 10 + 5; // 5-15px
+            let left = Math.random() * 100; // 0-100%
+            let duration = Math.random() * 5 + 5; // 5-10s
+
+            el.style.left = left + '%';
+            el.style.animationDuration = duration + 's';
+            el.style.top = '-10%'; // Default mulai dari atas
+            
+            // Customization based on type
+            if (type === 'snow') {
+                el.style.width = size + 'px';
+                el.style.height = size + 'px';
+                el.style.background = '#ffffff';
+                el.style.borderRadius = '50%';
+                el.style.boxShadow = '0 0 5px #fff';
+                el.style.opacity = '0.8';
+                el.style.animationName = 'fall';
+            } 
+            else if (type === 'petals') {
+                el.style.width = size + 'px';
+                el.style.height = (size * 1.5) + 'px';
+                el.style.background = 'var(--inv-accent)';
+                el.style.borderRadius = '50% 0 50% 0';
+                el.style.opacity = '0.6';
+                el.style.animationName = 'fall';
+            } 
+            else if (type === 'hearts') {
+                el.innerText = '❤';
+                el.style.color = '#ff4d4d';
+                el.style.fontSize = (size + 10) + 'px';
+                el.style.opacity = '0.7';
+                el.style.animationName = 'fall';
+            } 
+            else if (type === 'autumn') {
+                const leaves = ['🍂', '🍁'];
+                el.innerText = leaves[Math.floor(Math.random() * leaves.length)];
+                el.style.fontSize = (size + 15) + 'px';
+                el.style.opacity = '0.8';
+                el.style.animationName = 'fall';
+            } 
+            else if (type === 'balloons') {
+                maxItems = 12;
+                intervalMs = 1200;
+                el.innerText = '🎈';
+                el.style.fontSize = (size + 25) + 'px';
+                el.style.top = '100%'; // Mulai dari bawah
+                el.style.animationName = 'float-up';
+                duration = Math.random() * 4 + 6; // Lebih lambat
+                el.style.animationDuration = duration + 's';
+            } 
+            else if (type === 'confetti') {
+                maxItems = 40;
+                intervalMs = 300;
+                const colors = ['#ff5252', '#00e676', '#00b0ff', '#ffea00', '#ab47bc'];
+                el.style.width = Math.random() * 8 + 5 + 'px';
+                el.style.height = Math.random() * 15 + 10 + 'px';
+                el.style.background = colors[Math.floor(Math.random() * colors.length)];
+                el.style.borderRadius = '2px';
+                el.style.opacity = '0.9';
+                el.style.animationName = 'fall';
+                duration = Math.random() * 3 + 3; // Lebih cepat
+                el.style.animationDuration = duration + 's';
+            } 
+            else if (type === 'fireflies') {
+                maxItems = 25;
+                el.style.width = size + 'px';
+                el.style.height = size + 'px';
+                el.style.background = '#ffeb3b';
+                el.style.borderRadius = '50%';
+                el.style.boxShadow = '0 0 10px #ffeb3b, 0 0 20px #ffeb3b';
+                el.style.top = '100%'; // Mulai dari bawah
+                el.style.animationName = 'twinkle-float';
+                duration = Math.random() * 6 + 6;
+                el.style.animationDuration = duration + 's';
+            }
+
+            container.appendChild(el);
+            
+            // Hapus elemen setelah animasi selesai agar DOM tidak penuh
+            setTimeout(() => {
+                if(el.parentNode) el.parentNode.removeChild(el);
+            }, duration * 1000);
+
+        }, intervalMs);
+    }
+
+    // --- 9. MOBILE ADMIN TOGGLE ---
+    function toggleAdmin() {
+        const panel = document.getElementById('admin-panel');
+        panel.classList.toggle('open');
+        
+        // Sembunyikan bottom-nav dan audio control ketika mode admin di mobile terbuka agar tidak menutupi form
+        const bottomNav = document.getElementById('bottom-nav');
+        const audioControl = document.getElementById('audio-control');
+        const isCoverOpened = document.getElementById('cover-page').classList.contains('opened');
+
+        if(panel.classList.contains('open')) {
+            bottomNav.style.display = 'none';
+            audioControl.style.display = 'none';
+        } else {
+            bottomNav.style.display = ''; // Reset agar menggunakan css class
+            // Kembalikan tombol musik jika cover sudah pernah dibuka
+            if (isCoverOpened) {
+                audioControl.style.display = 'flex';
+            }
+        }
+    }
+
+    // --- 10. EXPORT HTML (Simulasi) ---
+    function exportHTML() {
+        // Dalam implementasi nyata, ini akan mengambil innerHTML dari #invitation-frame,
+        // menggabungkannya dengan template CSS di atas, dan membuat Blob untuk didownload.
+        // Karena ini berbasis browser murni tanpa backend file-system:
+        alert("Fitur Export mensimulasikan generate file index.html berisi pengaturan yang telah Anda buat. Anda bisa menguploadnya ke hosting seperti GitHub Pages atau Netlify.");
+    }
+
+    // --- 11. FITUR BARU: CLOUD STORAGE (GOOGLE SHEETS) ---
+    function getFormConfigData() {
+        let config = {};
+        // Ambil semua input, select, dan textarea di dalam panel admin yang memiliki ID (kecuali rsvp)
+        const inputs = document.querySelectorAll('#admin-panel input, #admin-panel select, #admin-panel textarea');
+        inputs.forEach(el => {
+            // Hindari menyimpan ID yang bersifat fungsional murni/sementara jika perlu
+            if (el.id && el.id !== 'app-script-url' && el.id !== 'invitation-id' && !el.id.startsWith('rsvp')) {
+                config[el.id] = el.value;
+            }
+        });
+        return config;
+    }
+
+    function applyFormConfigData(config) {
+        for (const [key, value] of Object.entries(config)) {
+            const el = document.getElementById(key);
+            if (el) {
+                el.value = value;
+                // Trigger event untuk mengupdate preview realtime
+                el.dispatchEvent(new Event('input', { bubbles: true }));
+                el.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+        
+        // Pastikan tema, jenis acara, efek, dan galeri di-render ulang
+        if (config['theme-selector']) applyTheme(config['theme-selector']);
+        if (config['input-event-type']) changeEventType(config['input-event-type']);
+        if (config['input-effect']) changeEffect(config['input-effect']);
+        if (config['input-gallery-style']) changeGalleryStyle(config['input-gallery-style']);
+        if (config['input-gallery-count']) changeGalleryCount(config['input-gallery-count']);
+    }
+
+    function showCloudStatus(message, isError = false) {
+        const statusEl = document.getElementById('cloud-status');
+        statusEl.innerText = message;
+        statusEl.style.color = isError ? '#ff7675' : '#55efc4';
+        setTimeout(() => { statusEl.innerText = ''; }, 5000);
+    }
+
+    async function saveToCloud() {
+        const url = document.getElementById('app-script-url').value;
+        const invId = document.getElementById('invitation-id').value;
+
+        if (!url || !invId) {
+            alert("Mohon isi URL Apps Script dan ID Undangan terlebih dahulu.");
+            return;
+        }
+
+        const dataToSave = getFormConfigData();
+        showCloudStatus("Menyimpan data ke Cloud...", false);
+
+        try {
+            // Gunakan fetch POST dengan text/plain untuk melewati preflight CORS browser
+            const response = await fetch(`${url}?action=save&id=${encodeURIComponent(invId)}`, {
+                method: 'POST',
+                body: JSON.stringify(dataToSave),
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                }
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                showCloudStatus("✅ " + result.message);
+            } else {
+                showCloudStatus("❌ Gagal: " + result.message, true);
+            }
+        } catch (error) {
+            showCloudStatus("❌ Error koneksi ke server.", true);
+            console.error("Save Error:", error);
+        }
+    }
+
+    async function loadFromCloud() {
+        const url = document.getElementById('app-script-url').value;
+        const invId = document.getElementById('invitation-id').value;
+
+        if (!url || !invId) {
+            alert("Mohon isi URL Apps Script dan ID Undangan yang ingin dimuat.");
+            return;
+        }
+
+        showCloudStatus("Memuat data dari Cloud...", false);
+
+        try {
+            const response = await fetch(`${url}?action=load&id=${encodeURIComponent(invId)}`, {
+                method: 'GET'
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                applyFormConfigData(result.data);
+                showCloudStatus("✅ Data berhasil dimuat!");
+            } else if (result.status === 'not_found') {
+                showCloudStatus("❌ Data tidak ditemukan untuk ID tersebut.", true);
+            } else {
+                showCloudStatus("❌ Gagal memuat data.", true);
+            }
+        } catch (error) {
+            showCloudStatus("❌ Error koneksi ke server.", true);
+            console.error("Load Error:", error);
+        }
+    }
+
+    // --- INIT ---
+    function loadGuestbook() {
+        const container = document.getElementById('guestbook-container');
+        container.innerHTML = '';
+        
+        let messages = JSON.parse(localStorage.getItem('invigen_rsvp_data')) || [];
+        
+        if(messages.length === 0) {
+            messages = [
+                { name: 'Andi & Keluarga', status: 'Hadir', msg: 'Selamat ya! Semoga bahagia selalu.' },
+                { name: 'Budi Santoso', status: 'Tidak Hadir', msg: 'Maaf belum bisa hadir, titip doa yang terbaik.' }
+            ];
+            localStorage.setItem('invigen_rsvp_data', JSON.stringify(messages));
+        }
+
+        messages.slice().reverse().forEach(data => {
+            const div = document.createElement('div');
+            div.className = 'guest-msg';
+            const statusColor = data.status === 'Hadir' ? '#2ecc71' : '#e74c3c';
+            div.innerHTML = `
+                <div class="guest-msg-header">
+                    <span class="guest-name">${data.name}</span>
+                    <span class="guest-status" style="color:${statusColor}; border: 1px solid ${statusColor}">${data.status}</span>
+                </div>
+                <div class="guest-text">${data.msg}</div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function submitRSVP() {
+        const name = document.getElementById('rsvp-name').value;
+        const status = document.getElementById('rsvp-status').value;
+        const msg = document.getElementById('rsvp-msg').value;
+
+        if(!name || !msg) {
+            alert('Mohon lengkapi nama dan ucapan Anda.');
+            return;
+        }
+
+        const newData = { name, status, msg };
+        let messages = JSON.parse(localStorage.getItem('invigen_rsvp_data')) || [];
+        messages.push(newData);
+        localStorage.setItem('invigen_rsvp_data', JSON.stringify(messages));
+        
+        document.getElementById('rsvp-name').value = '';
+        document.getElementById('rsvp-msg').value = '';
+        loadGuestbook();
+    }
+
+    window.onload = () => {
+        checkGuestName();
+        loadGuestbook();
+        changeEffect('petals'); // Default effect
+        applyTheme('elegant');  // Setup theme styling pada load pertama
+        changeGalleryCount(3);  // Default jumlah galeri foto 3
+    };
+
+</script>
+</body>
+</html>
