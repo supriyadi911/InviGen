@@ -509,7 +509,7 @@
         /* Floating Audio Button */
         #audio-control {
             position: absolute;
-            bottom: 85px; right: 20px; /* Disesuaikan agar tidak bertumpuk dengan navigasi bawah */
+            bottom: 95px; right: 20px; /* Disesuaikan agar aman di atas bottom nav */
             width: 45px; height: 45px;
             background: var(--inv-accent);
             color: white;
@@ -528,18 +528,18 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: auto;
-            min-height: 65px;
-            padding-bottom: env(safe-area-inset-bottom); /* Mencegah tertabrak garis iPhone */
-            background: #ffffff; /* Mengubah menjadi solid color */
-            /* Menghapus border-radius dan backdrop-filter untuk sudut tajam yang solid */
+            padding-top: 12px;
+            /* Kalkulasi pintar: beri jarak default 12px + jarak aman iPhone jika ada */
+            padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); 
+            background: #ffffff; 
+            border-top: 1px solid rgba(0,0,0,0.08); /* Garis tegas di bagian atas nav */
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 100;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
             transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         #bottom-nav.visible { transform: translateY(0); }
         
@@ -548,7 +548,7 @@
             font-size: 1.3rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            padding: 10px;
+            padding: 5px 10px;
         }
         .nav-item.active, .nav-item:hover {
             color: var(--inv-accent);
@@ -574,7 +574,11 @@
         /* Dark Mode CSS Overrides */
         #phone-mockup.dark-mode #invitation-frame,
         #phone-mockup.dark-mode .inv-section { background-color: #121212 !important; color: #e0e0e0 !important; }
-        #phone-mockup.dark-mode #bottom-nav { background: #1e1e1e !important; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
+        #phone-mockup.dark-mode #bottom-nav { 
+            background: #1e1e1e !important; 
+            border-top: 1px solid #333 !important;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.5) !important; 
+        }
         #phone-mockup.dark-mode #darkmode-toggle { background: rgba(30, 30, 30, 0.8); color: #fff; }
         #phone-mockup.dark-mode .event-card, 
         #phone-mockup.dark-mode .profile-card, 
@@ -1960,7 +1964,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>${pageTitle}</title>
     
     <!-- Fonts & Icons -->
@@ -1975,23 +1979,28 @@
         ${styleCSS}
         
         /* Overrides: Membuat tampilan layaknya Mobile Web App penuh saat dihosting */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100dvh; /* Kunci agar web full tinggi layar */
+            overflow: hidden; /* Mencegah scroll di luar mockup hp */
+        }
         body { 
             background: #121212; 
             display: flex; 
             justify-content: center; 
             align-items: flex-start;
-            margin: 0;
-            padding: 0;
         }
         #phone-mockup { 
             width: 100%; 
             max-width: 500px; 
-            height: 100vh; 
-            height: 100dvh;
+            height: 100%; /* Memenuhi body (100dvh) */
             border: none; 
             border-radius: 0; 
             margin: 0 auto; 
             box-shadow: 0 0 30px rgba(0,0,0,0.5); 
+            position: relative; /* Kunci agar Bottom Nav 'Absolute' tertahan di sini */
         }
         #mobile-admin-toggle, #admin-panel { display: none !important; }
     </style>
